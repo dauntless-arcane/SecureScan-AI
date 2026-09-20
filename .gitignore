@@ -30,3 +30,7 @@ Desktop.ini
 .env
 .env.local
 .env.*.local
+
+# Backend scan workspaces (cloned repos)
+backend/workspaces/*
+!backend/workspaces/.gitkeep
