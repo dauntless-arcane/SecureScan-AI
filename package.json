@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "frontend:dev": "vite",
+    "backend:dev": "npm --prefix backend run dev",
+    "cleanport": "npm --prefix backend run cleanport",
+    "cleanport:frontend": "node scripts/cleanport.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
