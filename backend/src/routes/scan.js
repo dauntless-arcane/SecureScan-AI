@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createScan, getScan, getScanReport, requestFindingFix } from '../services/scanService.js';
+import { createScan, getScan, getScanReport, requestFindingFix, verifyFinding } from '../services/scanService.js';
 
 const router = Router();
 
@@ -44,6 +44,25 @@ router.post('/fix/:scan_id', async (req, res) => {
     return res.status(502).json({ error: result.message });
   }
   return res.status(200).json(result.fix);
+});
+
+router.post('/verify/:scan_id/:finding_index', async (req, res) => {
+  const findingIndex = Number(req.params.finding_index);
+  if (!Number.isInteger(findingIndex) || findingIndex < 0) {
+    return res.status(400).json({ error: 'finding_index (non-negative integer) is required.' });
+  }
+
+  const result = await verifyFinding(req.params.scan_id, findingIndex);
+  if (result.error === 'not_found') {
+    return res.status(404).json({ error: result.message });
+  }
+  if (result.error === 'fix_not_ready') {
+    return res.status(409).json({ error: result.message });
+  }
+  if (result.error) {
+    return res.status(502).json({ error: result.message });
+  }
+  return res.status(200).json(result.result);
 });
 
 export default router;

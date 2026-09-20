@@ -1,8 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Github, Search, CheckCircle, ChevronDown, ChevronUp, XCircle, ShieldOff, Sparkles, Loader2, GitPullRequest, ArrowLeft } from 'lucide-react';
-import { generateFindingFix, getScanReport, getScanStatus, submitScan, type Finding, type ScanStatus } from '../lib/api';
+import { Github, Search, CheckCircle, ChevronDown, ChevronUp, XCircle, ShieldOff, Sparkles, Loader2, GitPullRequest, ArrowLeft, ShieldCheck, ShieldAlert } from 'lucide-react';
+import {
+  generateFindingFix,
+  getScanReport,
+  getScanStatus,
+  submitScan,
+  verifyFindingFix,
+  type Finding,
+  type FixResult,
+  type ScanStatus,
+  type VerificationResult,
+} from '../lib/api';
 
-type FixState = { status: 'loading' | 'ready' | 'error'; content?: string };
+type FixState =
+  | { status: 'loading' }
+  | { status: 'ready'; fix: FixResult }
+  | { status: 'error'; message: string };
+
+type VerifyState =
+  | { status: 'loading' }
+  | { status: 'done'; result: VerificationResult }
+  | { status: 'error'; message: string };
 
 const POLL_INTERVAL_MS = 2000;
 
@@ -41,6 +59,7 @@ const RepoScan: React.FC = () => {
   const [findings, setFindings] = useState<Finding[]>([]);
   const [reportError, setReportError] = useState<string | null>(null);
   const [fixes, setFixes] = useState<Record<number, FixState>>({});
+  const [verifications, setVerifications] = useState<Record<number, VerifyState>>({});
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [view, setView] = useState<'results' | 'pr'>('results');
 
@@ -67,6 +86,7 @@ const RepoScan: React.FC = () => {
     setFindings([]);
     setExpandedFinding(null);
     setFixes({});
+    setVerifications({});
     setSelected(new Set());
     setView('results');
     setScanId(null);
@@ -123,12 +143,12 @@ const RepoScan: React.FC = () => {
     setFixes((prev) => ({ ...prev, [index]: { status: 'loading' } }));
 
     try {
-      const result = await generateFindingFix(scanId, index);
-      setFixes((prev) => ({ ...prev, [index]: { status: 'ready', content: result.content } }));
+      const fix = await generateFindingFix(scanId, index);
+      setFixes((prev) => ({ ...prev, [index]: { status: 'ready', fix } }));
     } catch (err) {
       setFixes((prev) => ({
         ...prev,
-        [index]: { status: 'error', content: err instanceof Error ? err.message : 'Failed to generate fix.' },
+        [index]: { status: 'error', message: err instanceof Error ? err.message : 'Failed to generate fix.' },
       }));
     }
   };
@@ -136,6 +156,22 @@ const RepoScan: React.FC = () => {
   const handleSeeFix = (index: number) => {
     setExpandedFinding(index);
     fetchFix(index);
+  };
+
+  const handleVerifyFix = async (index: number) => {
+    if (!scanId) return;
+
+    setVerifications((prev) => ({ ...prev, [index]: { status: 'loading' } }));
+
+    try {
+      const result = await verifyFindingFix(scanId, index);
+      setVerifications((prev) => ({ ...prev, [index]: { status: 'done', result } }));
+    } catch (err) {
+      setVerifications((prev) => ({
+        ...prev,
+        [index]: { status: 'error', message: err instanceof Error ? err.message : 'Failed to verify fix.' },
+      }));
+    }
   };
 
   const toggleSelected = (index: number) => {
@@ -420,12 +456,16 @@ const RepoScan: React.FC = () => {
                               </div>
                             ) : fixes[originalIndex].status === 'error' ? (
                               <div className="bg-red-900/20 rounded-lg p-4 border border-red-500/20">
-                                <p className="text-red-300 text-sm">{fixes[originalIndex].content}</p>
+                                <p className="text-red-300 text-sm">{fixes[originalIndex].message}</p>
                               </div>
                             ) : (
-                              <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/20">
-                                <pre className="text-green-300 text-sm whitespace-pre-wrap font-sans">{fixes[originalIndex].content}</pre>
-                              </div>
+                              <>
+                                <AiFixDetails fix={fixes[originalIndex].fix} />
+                                <VerifyFixSection
+                                  verification={verifications[originalIndex]}
+                                  onVerify={() => handleVerifyFix(originalIndex)}
+                                />
+                              </>
                             )}
                           </div>
                         )}
@@ -510,14 +550,10 @@ const PrScreen: React.FC<{
                 {(!fix || fix.status === 'loading') && <Loader2 className="w-5 h-5 text-lilac-400 animate-spin shrink-0" />}
               </div>
 
-              {fix?.status === 'ready' && (
-                <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/20">
-                  <pre className="text-green-300 text-sm whitespace-pre-wrap font-sans">{fix.content}</pre>
-                </div>
-              )}
+              {fix?.status === 'ready' && <AiFixDetails fix={fix.fix} />}
               {fix?.status === 'error' && (
                 <div className="bg-red-900/20 rounded-lg p-4 border border-red-500/20">
-                  <p className="text-red-300 text-sm">{fix.content}</p>
+                  <p className="text-red-300 text-sm">{fix.message}</p>
                 </div>
               )}
             </div>
@@ -545,5 +581,106 @@ const PrScreen: React.FC<{
     </div>
   );
 };
+
+const VerifyFixSection: React.FC<{ verification: VerifyState | undefined; onVerify: () => void }> = ({
+  verification,
+  onVerify,
+}) => (
+  <div className="mt-4 space-y-3">
+    <button
+      onClick={onVerify}
+      disabled={verification?.status === 'loading'}
+      className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+        verification?.status === 'loading'
+          ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+          : 'border-2 border-lilac-400/50 text-white hover:border-lilac-400 hover:bg-lilac-400/10'
+      }`}
+    >
+      {verification?.status === 'loading' ? (
+        <Loader2 className="w-4 h-4 animate-spin" />
+      ) : (
+        <ShieldCheck className="w-4 h-4" />
+      )}
+      <span>Verify Fix</span>
+    </button>
+
+    {verification?.status === 'loading' && (
+      <div className="flex items-center space-x-3 bg-darkpurple-900/30 rounded-lg p-4 border border-lilac-400/20">
+        <Loader2 className="w-5 h-5 text-lilac-400 animate-spin" />
+        <span className="text-gray-300 text-sm">
+          Applying the fix in an isolated workspace and re-running Semgrep...
+        </span>
+      </div>
+    )}
+
+    {verification?.status === 'error' && (
+      <div className="bg-red-900/20 rounded-lg p-4 border border-red-500/20">
+        <p className="text-red-300 text-sm">{verification.message}</p>
+      </div>
+    )}
+
+    {verification?.status === 'done' && verification.result.status === 'VERIFIED' && (
+      <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/20">
+        <div className="flex items-center space-x-2 mb-2">
+          <ShieldCheck className="w-5 h-5 text-green-400" />
+          <span className="text-green-400 font-semibold">VERIFIED</span>
+        </div>
+        <p className="text-green-300 text-sm">Semgrep no longer detects the original finding.</p>
+      </div>
+    )}
+
+    {verification?.status === 'done' && verification.result.status === 'FAILED' && (
+      <div className="bg-red-900/20 rounded-lg p-4 border border-red-500/20 space-y-3">
+        <div className="flex items-center space-x-2 mb-1">
+          <ShieldAlert className="w-5 h-5 text-red-400" />
+          <span className="text-red-400 font-semibold">VERIFICATION FAILED</span>
+        </div>
+        <p className="text-red-300 text-sm">The original finding is still detected.</p>
+        {verification.result.remaining_findings.length > 0 && (
+          <div>
+            <p className="text-xs text-gray-400 mb-1">Remaining finding(s):</p>
+            <ul className="text-xs text-red-300 space-y-1">
+              {verification.result.remaining_findings.map((f, i) => (
+                <li key={i} className="break-all">
+                  {f.rule_id} — {f.file}
+                  {f.start_line ? `:${f.start_line}` : ''}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+);
+
+const AiFixDetails: React.FC<{ fix: FixResult }> = ({ fix }) => (
+  <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/20 space-y-4">
+    <div>
+      <p className="text-sm text-gray-400 mb-1">Affected file</p>
+      <p className="text-sm text-lilac-400 break-all">{fix.file_path}</p>
+    </div>
+    <div>
+      <p className="text-sm text-gray-400 mb-1">Explanation</p>
+      <p className="text-green-300 text-sm whitespace-pre-wrap">{fix.explanation}</p>
+    </div>
+    {fix.changes.length > 0 && (
+      <div>
+        <p className="text-sm text-gray-400 mb-1">Changes</p>
+        <ul className="list-disc list-inside text-green-300 text-sm space-y-1">
+          {fix.changes.map((change, i) => (
+            <li key={i}>{change}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+    <div>
+      <p className="text-sm text-gray-400 mb-1">Corrected code</p>
+      <pre className="text-green-300 text-sm whitespace-pre-wrap font-sans bg-deepblack/40 rounded-lg p-3 overflow-x-auto">
+        {fix.fixed_code}
+      </pre>
+    </div>
+  </div>
+);
 
 export default RepoScan;

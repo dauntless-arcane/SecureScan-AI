@@ -60,7 +60,10 @@ export async function getScanReport(scanId: string): Promise<ScanReport> {
 
 export interface FixResult {
   model: string;
-  content: string;
+  explanation: string;
+  file_path: string;
+  fixed_code: string;
+  changes: string[];
 }
 
 export async function generateFindingFix(scanId: string, findingIndex: number): Promise<FixResult> {
@@ -69,5 +72,27 @@ export async function generateFindingFix(scanId: string, findingIndex: number): 
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ finding_index: findingIndex }),
   });
+  return parseJsonOrThrow(response);
+}
+
+export interface VerificationFindingSummary {
+  rule_id: string;
+  file: string;
+  start_line: number | null;
+}
+
+export interface VerificationResult {
+  verified: boolean;
+  status: 'VERIFIED' | 'FAILED';
+  original_finding: VerificationFindingSummary;
+  remaining_findings: Finding[];
+  message: string;
+}
+
+export async function verifyFindingFix(scanId: string, findingIndex: number): Promise<VerificationResult> {
+  const response = await fetch(
+    `${API_BASE_URL}/scan/verify/${encodeURIComponent(scanId)}/${encodeURIComponent(String(findingIndex))}`,
+    { method: 'POST' }
+  );
   return parseJsonOrThrow(response);
 }

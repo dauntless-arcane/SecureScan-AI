@@ -5,16 +5,18 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateGithubUrl } from '../utils/validateGithubUrl.js';
 import { generateFix } from './aiFixService.js';
+import { assembleContext, buildFindingContext } from './contextBuilder.js';
+import { verifyFix } from './verificationService.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const WORKSPACES_ROOT = path.resolve(__dirname, '../../workspaces');
+export const WORKSPACES_ROOT = path.resolve(__dirname, '../../workspaces');
 const CLONE_TIMEOUT_MS = 30_000;
 const SCAN_TIMEOUT_MS = 180_000;
 
 // Registry rulesets pulled at scan time. No `auto` (it requires metrics
 // reporting); metrics stay off so nothing about the scanned code is sent
 // to Semgrep's servers, only anonymous rule downloads.
-const SEMGREP_CONFIGS = ['p/security-audit', 'p/secrets', 'p/sql-injection', 'p/flask', 'p/owasp-top-ten'];
+export const SEMGREP_CONFIGS = ['p/security-audit', 'p/secrets', 'p/sql-injection', 'p/flask', 'p/owasp-top-ten'];
 
 export const ScanStatus = Object.freeze({
   QUEUED: 'QUEUED',
@@ -48,6 +50,14 @@ export function createScan(repoUrl) {
     semgrepCommand: null,
     semgrepRaw: null,
     findings: [],
+    // Remediation context, built from the clone before it's deleted.
+    // `fileCache` dedupes file content across findings that share a file;
+    // `findingContexts[i]` just points at the paths relevant to findings[i].
+    fileCache: new Map(),
+    findingContexts: [],
+    // AI fix results generated so far, keyed by finding index, so
+    // verification can reuse a fix without re-calling OpenRouter.
+    fixResults: new Map(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -95,16 +105,45 @@ export async function requestFindingFix(scanId, findingIndex) {
   }
 
   const finding = scan.findings[findingIndex];
-  if (!finding) {
+  const pointer = scan.findingContexts[findingIndex];
+  if (!finding || !pointer) {
     return { error: 'not_found', message: 'Finding not found for this scan.' };
   }
 
   try {
-    const result = await generateFix(scan, finding);
+    const context = assembleContext(finding, pointer, scan.fileCache);
+    const result = await generateFix(context);
+    scan.fixResults.set(findingIndex, result);
     return { fix: result };
   } catch (err) {
     return { error: 'ai_error', message: err instanceof Error ? err.message : 'Failed to generate fix.' };
   }
+}
+
+export async function verifyFinding(scanId, findingIndex) {
+  const scan = scans.get(scanId);
+  if (!scan) {
+    return { error: 'not_found', message: 'Scan not found.' };
+  }
+
+  const finding = scan.findings[findingIndex];
+  if (!finding) {
+    return { error: 'not_found', message: 'Finding not found for this scan.' };
+  }
+
+  const fix = scan.fixResults.get(findingIndex);
+  if (!fix) {
+    return {
+      error: 'fix_not_ready',
+      message: 'No AI fix has been generated for this finding yet. Generate a fix before verifying it.',
+    };
+  }
+
+  const outcome = await verifyFix({ repoUrl: scan.repoUrl, finding, fix });
+  if (outcome.error) {
+    return { error: outcome.error, message: outcome.message };
+  }
+  return { result: outcome.result };
 }
 
 async function cloneRepository(scan) {
@@ -113,15 +152,26 @@ async function cloneRepository(scan) {
 
   await mkdir(WORKSPACES_ROOT, { recursive: true });
 
+  try {
+    await cloneInto(scan.repoUrl, scan.workspacePath);
+  } catch (err) {
+    await cleanupWorkspace(scan.workspacePath);
+    throw err;
+  }
+
+  scan.status = ScanStatus.CLONED;
+  scan.updatedAt = new Date().toISOString();
+}
+
+// Pure clone helper with no scan-state side effects, so verificationService
+// can clone a fresh, isolated copy of the same repository for its own
+// short-lived workspace.
+export async function cloneInto(repoUrl, destPath) {
   await new Promise((resolve, reject) => {
-    const git = spawn(
-      'git',
-      ['clone', '--depth', '1', '--single-branch', '--no-tags', '--', scan.repoUrl, scan.workspacePath],
-      {
-        stdio: ['ignore', 'ignore', 'pipe'],
-        windowsHide: true,
-      }
-    );
+    const git = spawn('git', ['clone', '--depth', '1', '--single-branch', '--no-tags', '--', repoUrl, destPath], {
+      stdio: ['ignore', 'ignore', 'pipe'],
+      windowsHide: true,
+    });
 
     let stderr = '';
     let timedOut = false;
@@ -152,35 +202,30 @@ async function cloneRepository(scan) {
       }
       resolve();
     });
-  })
-    .then(() => {
-      scan.status = ScanStatus.CLONED;
-      scan.updatedAt = new Date().toISOString();
-    })
-    .catch(async (err) => {
-      await cleanupWorkspace(scan.workspacePath);
-      throw err;
-    });
+  });
 }
 
-async function runSemgrepScan(scan) {
-  scan.status = ScanStatus.SCANNING;
-  scan.updatedAt = new Date().toISOString();
-
-  const args = [
+function buildSemgrepArgs(workspacePath) {
+  return [
     'scan',
     ...SEMGREP_CONFIGS.flatMap((config) => ['--config', config]),
     '--json',
     '--quiet',
     '--metrics=off',
     '--no-git-ignore',
-    scan.workspacePath,
+    workspacePath,
   ];
-  scan.semgrepCommand = `semgrep ${args.join(' ')}`;
+}
+
+// Pure Semgrep runner with no scan-state side effects, using the same
+// configuration/args as the initial scan, so verificationService re-runs
+// the identical scanner rather than a second bespoke configuration.
+export async function executeSemgrep(workspacePath) {
+  const args = buildSemgrepArgs(workspacePath);
 
   const { stdout } = await new Promise((resolve, reject) => {
     const semgrep = spawn('semgrep', args, {
-      cwd: scan.workspacePath,
+      cwd: workspacePath,
       stdio: ['ignore', 'pipe', 'pipe'],
       windowsHide: true,
     });
@@ -222,15 +267,36 @@ async function runSemgrepScan(scan) {
     });
   });
 
-  const raw = JSON.parse(stdout);
+  return JSON.parse(stdout);
+}
+
+async function runSemgrepScan(scan) {
+  scan.status = ScanStatus.SCANNING;
+  scan.updatedAt = new Date().toISOString();
+
+  scan.semgrepCommand = `semgrep ${buildSemgrepArgs(scan.workspacePath).join(' ')}`;
+
+  const raw = await executeSemgrep(scan.workspacePath);
   scan.semgrepVersion = raw.version ?? null;
   scan.semgrepRaw = raw;
   scan.findings = (raw.results ?? []).map((result) => toFinding(result, scan.workspacePath));
+
+  // Build remediation context (whole file + local deps) for every finding
+  // while the clone still exists; nothing below this can touch the clone.
+  for (const finding of scan.findings) {
+    const pointer = await buildFindingContext(finding, scan.workspacePath, scan.fileCache);
+    scan.findingContexts.push(pointer);
+  }
+
   scan.status = ScanStatus.COMPLETED;
   scan.updatedAt = new Date().toISOString();
+
+  // The clone is only needed to scan it and to build remediation context for
+  // AI fixes; once both are done there's no reason to keep it on disk.
+  await cleanupWorkspace(scan.workspacePath);
 }
 
-function toFinding(result, workspacePath) {
+export function toFinding(result, workspacePath) {
   return {
     rule_id: result.check_id,
     message: result.extra?.message ?? null,
