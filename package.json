@@ -11,6 +11,9 @@
     "cleanport:frontend": "node scripts/cleanport.js",
     "build": "vite build",
     "lint": "eslint .",
+    "benchmark": "node test/benchmark/run.js",
+    "benchmark:report": "node test/benchmark/report.js",
+    "benchmark:validate": "node test/benchmark/validate-ground-truth.js",
     "preview": "vite preview"
   },
   "dependencies": {

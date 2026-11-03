@@ -1,0 +1,181 @@
+{
+  "$comment": "Benchmark corpus of intentionally vulnerable repos. tier: smoke < core < full (a tier includes all lower tiers). ground_truth.type: static (hand-authored JSON), extractor (generated from the repo's own answer key at run time), none (scan-only: no recall/precision, findings counted as unlabeled). reviewed_commit is the HEAD the entry was checked against on 2026-11-03; the backend always scans the current default-branch HEAD.",
+  "repos": [
+    {
+      "id": "dsvw",
+      "name": "Damn Small Vulnerable Web",
+      "url": "https://github.com/stamparm/DSVW",
+      "language": "python",
+      "framework": "stdlib http.server",
+      "tier": "smoke",
+      "reviewed_commit": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+      "ground_truth": { "type": "static", "file": "ground-truth/dsvw.json" },
+      "notes": "~100 LoC, ~25 documented vulnerability classes in one file. Fastest end-to-end check."
+    },
+    {
+      "id": "vulnerable-flask-app",
+      "name": "we45 Vulnerable Flask App",
+      "url": "https://github.com/we45/Vulnerable-Flask-App",
+      "language": "python",
+      "framework": "flask",
+      "tier": "smoke",
+      "reviewed_commit": "b6a4f97afd466e83e1f60781494252dec1c37039",
+      "ground_truth": { "type": "static", "file": "ground-truth/vulnerable-flask-app.json" },
+      "notes": "Single Flask app: SQLi, SSTI, insecure YAML, JWT verify=False, hardcoded secrets."
+    },
+    {
+      "id": "vulpy",
+      "name": "Vulpy (bad/ and good/ variants)",
+      "url": "https://github.com/fportantier/vulpy",
+      "language": "python",
+      "framework": "flask",
+      "tier": "core",
+      "reviewed_commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "ground_truth": { "type": "static", "file": "ground-truth/vulpy.json" },
+      "notes": "Same app written insecurely (bad/) and hardened (good/). Safe entries in good/ measure false positives."
+    },
+    {
+      "id": "dvpwa",
+      "name": "Damn Vulnerable Python Web App",
+      "url": "https://github.com/anxolerd/dvpwa",
+      "language": "python",
+      "framework": "aiohttp",
+      "tier": "core",
+      "reviewed_commit": "a1d8f89fac2e57093189853c6527c2b01fc1d9c1",
+      "ground_truth": { "type": "none" },
+      "notes": "Ground truth pending (step 2)."
+    },
+    {
+      "id": "pygoat",
+      "name": "OWASP PyGoat",
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "language": "python",
+      "framework": "django",
+      "tier": "core",
+      "reviewed_commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "ground_truth": { "type": "none" },
+      "notes": "Ground truth pending (step 2)."
+    },
+    {
+      "id": "nodegoat",
+      "name": "OWASP NodeGoat",
+      "url": "https://github.com/OWASP/NodeGoat",
+      "language": "javascript",
+      "framework": "express",
+      "tier": "core",
+      "reviewed_commit": "c5cb68a7084e4ae7dcc60e6a98768720a81841e8",
+      "ground_truth": { "type": "none" },
+      "notes": "Ground truth pending (step 2). OWASP Top 10 tutorial app."
+    },
+    {
+      "id": "dvna",
+      "name": "Damn Vulnerable NodeJS Application",
+      "url": "https://github.com/appsecco/dvna",
+      "language": "javascript",
+      "framework": "express",
+      "tier": "core",
+      "reviewed_commit": "9ba473add536f66ac9007966acb2a775dd31277a",
+      "ground_truth": { "type": "none" },
+      "notes": "Ground truth pending (step 2)."
+    },
+    {
+      "id": "vulnerable-node",
+      "name": "cr0hn vulnerable-node",
+      "url": "https://github.com/cr0hn/vulnerable-node",
+      "language": "javascript",
+      "framework": "express",
+      "tier": "core",
+      "reviewed_commit": "d68f2a3c9277ece2c2feb9976052033bdecd7fbe",
+      "ground_truth": { "type": "none" },
+      "notes": "Ground truth pending (step 2)."
+    },
+    {
+      "id": "juice-shop",
+      "name": "OWASP Juice Shop",
+      "url": "https://github.com/juice-shop/juice-shop",
+      "language": "typescript",
+      "framework": "express + angular",
+      "tier": "core",
+      "reviewed_commit": "717f5efa886b0417eeecb52378b03cf10567b7e2",
+      "ground_truth": { "type": "extractor", "module": "extractors/juice-shop.js" },
+      "notes": "Ground truth = the repo's own 'vuln-code-snippet vuln-line' markers (coding challenges), so it is a partial answer key. ~28 MB; clone took ~49 s here, above the backend's 30 s clone timeout."
+    },
+    {
+      "id": "owasp-benchmark-java",
+      "name": "OWASP Benchmark (Java) v1.2",
+      "url": "https://github.com/OWASP-Benchmark/BenchmarkJava",
+      "language": "java",
+      "framework": "servlets",
+      "tier": "full",
+      "reviewed_commit": "1fa16b84f77a438a7b7c929f0e67b947b0766861",
+      "ground_truth": { "type": "extractor", "module": "extractors/owasp-benchmark.js" },
+      "notes": "2,740 labeled test cases (1,415 real, 1,325 deliberately safe): the only corpus here with a true false-positive rate. ~240 MB; needs higher backend clone/scan timeouts."
+    },
+    {
+      "id": "webgoat",
+      "name": "OWASP WebGoat",
+      "url": "https://github.com/WebGoat/WebGoat",
+      "language": "java",
+      "framework": "spring boot",
+      "tier": "full",
+      "reviewed_commit": "be2c186b94201bcbdfa46c3a6f5f53dd83262d6a",
+      "ground_truth": { "type": "none" },
+      "notes": "Scan-only (lesson-based; no machine-readable answer key)."
+    },
+    {
+      "id": "dvwa",
+      "name": "Damn Vulnerable Web Application",
+      "url": "https://github.com/digininja/DVWA",
+      "language": "php",
+      "framework": "plain php",
+      "tier": "full",
+      "reviewed_commit": "a1978a2fed195acd093010af6395f86a281537ca",
+      "ground_truth": { "type": "none" },
+      "notes": "Scan-only for now. Each module ships low/medium/high/impossible variants, a good future FP source."
+    },
+    {
+      "id": "railsgoat",
+      "name": "OWASP RailsGoat",
+      "url": "https://github.com/OWASP/railsgoat",
+      "language": "ruby",
+      "framework": "rails",
+      "tier": "full",
+      "reviewed_commit": "f5951f13089d85c979de09e7da3c8c0fb982f94a",
+      "ground_truth": { "type": "none" },
+      "notes": "Scan-only."
+    },
+    {
+      "id": "dvws-node",
+      "name": "Damn Vulnerable Web Services (Node)",
+      "url": "https://github.com/snoopysecurity/dvws-node",
+      "language": "javascript",
+      "framework": "express + graphql",
+      "tier": "full",
+      "reviewed_commit": "e83689c406f4277c8a9a1eeefefe5f498d9526c2",
+      "ground_truth": { "type": "none" },
+      "notes": "Scan-only."
+    },
+    {
+      "id": "tiredful-api",
+      "name": "Tiredful API",
+      "url": "https://github.com/payatu/Tiredful-API",
+      "language": "python",
+      "framework": "django rest framework",
+      "tier": "full",
+      "reviewed_commit": "0134124496b3c4f1b969e51a24fd8a059104fb98",
+      "ground_truth": { "type": "none" },
+      "notes": "Scan-only. Mostly API logic flaws (IDOR, rate limiting) that SAST is not expected to find."
+    },
+    {
+      "id": "vulnpy",
+      "name": "Contrast vulnpy",
+      "url": "https://github.com/Contrast-Security-OSS/vulnpy",
+      "language": "python",
+      "framework": "multi (flask/django/falcon/pyramid/...)",
+      "tier": "full",
+      "reviewed_commit": "b81885e58283a3449b578d20c20557aff637e5ea",
+      "ground_truth": { "type": "none" },
+      "notes": "Scan-only. Library of deliberately vulnerable trigger functions shared across frameworks."
+    }
+  ]
+}

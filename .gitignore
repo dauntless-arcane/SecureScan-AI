@@ -34,3 +34,7 @@ Desktop.ini
 # Backend scan workspaces (cloned repos)
 backend/workspaces/*
 !backend/workspaces/.gitkeep
+
+# Benchmark run outputs (large: raw scans + AI-generated files)
+test/benchmark/results/*
+!test/benchmark/results/.gitkeep
