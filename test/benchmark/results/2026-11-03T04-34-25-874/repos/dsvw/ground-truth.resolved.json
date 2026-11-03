@@ -1,0 +1,505 @@
+{
+  "repo_id": "dsvw",
+  "commit": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+  "complete": true,
+  "unmatched_policy": "fp",
+  "scope": {
+    "include": [
+      "dsvw.py"
+    ],
+    "exclude": []
+  },
+  "source": "Hand-authored by reading dsvw.py line by line and cross-checking against the CASES attack list the app itself ships (dsvw.py:10). Scope is the application file only; tests/, Dockerfile and .github/ are out of scope.",
+  "entries": [
+    {
+      "id": "dsvw-sqli-id",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        22,
+        22
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "sast_detectable": true,
+      "anchor": "WHERE id=\" + params[\"id\"]",
+      "title": "Blind/UNION SQL injection via ?id concatenated into SELECT",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-xss-reflected",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        25,
+        25
+      ],
+      "category": "xss",
+      "cwe": [
+        79
+      ],
+      "sast_detectable": true,
+      "anchor": "params[\"v\"]",
+      "title": "Reflected XSS / frame injection / clickjacking payload via ?v written into HTML",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-deserialization",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        27,
+        27
+      ],
+      "category": "deserialization",
+      "cwe": [
+        502
+      ],
+      "sast_detectable": true,
+      "anchor": "pickle.loads(",
+      "title": "pickle.loads on attacker-supplied ?object",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-path-traversal",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        29,
+        29
+      ],
+      "category": "path-traversal",
+      "cwe": [
+        22
+      ],
+      "sast_detectable": true,
+      "anchor": "open(os.path.abspath(params[\"path\"])",
+      "title": "Path traversal / source code disclosure via ?path opened directly",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-ssrf-path",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        29,
+        29
+      ],
+      "category": "ssrf",
+      "cwe": [
+        918
+      ],
+      "sast_detectable": true,
+      "anchor": "FETCH(params[\"path\"])",
+      "title": "SSRF: ?path containing :// is fetched server-side",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-ssrf-fetch-sink",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        7,
+        7
+      ],
+      "category": "ssrf",
+      "cwe": [
+        918
+      ],
+      "sast_detectable": true,
+      "anchor": "FETCH, LATIN1 = ",
+      "title": "FETCH helper: urlopen on caller-supplied URL (sink reached from ?path and ?include)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-cmdi",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        31,
+        31
+      ],
+      "category": "cmdi",
+      "cwe": [
+        78
+      ],
+      "sast_detectable": true,
+      "anchor": "\"nslookup \" + params[\"domain\"], shell=True",
+      "title": "OS command injection: ?domain appended to nslookup with shell=True",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-xxe",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        33,
+        33
+      ],
+      "category": "xxe",
+      "cwe": [
+        611
+      ],
+      "sast_detectable": true,
+      "anchor": "resolve_entities=True",
+      "title": "XXE: lxml parser with load_dtd/resolve_entities/no_network=False on ?xml",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-xpath",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        35,
+        35
+      ],
+      "category": "xpath",
+      "cwe": [
+        643
+      ],
+      "sast_detectable": true,
+      "anchor": ".xpath(\".//user[name/text()='%s']\" % params[\"name\"])",
+      "title": "Blind XPath injection via ?name",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-dos-size",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        38,
+        38
+      ],
+      "category": "dos",
+      "cwe": [
+        400
+      ],
+      "sast_detectable": false,
+      "anchor": "int(params[\"size\"])",
+      "title": "Memory DoS: unbounded ?size drives string allocation",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-sqli-comment",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        42,
+        42
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "sast_detectable": true,
+      "anchor": "INSERT INTO comments VALUES(NULL, '%s', '%s')",
+      "title": "SQL injection: ?comment %-formatted into INSERT",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-csrf-comment",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        42,
+        42
+      ],
+      "category": "csrf",
+      "cwe": [
+        352
+      ],
+      "sast_detectable": false,
+      "anchor": "INSERT INTO comments VALUES(NULL, '%s', '%s')",
+      "title": "CSRF: state-changing GET (comment insert) with no anti-CSRF token",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-xss-stored",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        46,
+        46
+      ],
+      "category": "xss",
+      "cwe": [
+        79
+      ],
+      "sast_detectable": true,
+      "anchor": "<th>comment</th>",
+      "title": "Stored XSS: comments rendered into HTML table unescaped",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-file-inclusion",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        48,
+        48
+      ],
+      "category": "file-inclusion",
+      "cwe": [
+        98
+      ],
+      "sast_detectable": true,
+      "anchor": "open(params[\"include\"], \"rb\")",
+      "title": "Remote/local file inclusion: ?include opened or fetched as program source",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-code-exec",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        49,
+        49
+      ],
+      "category": "code-injection",
+      "cwe": [
+        94
+      ],
+      "sast_detectable": true,
+      "anchor": "exec(program, envs)",
+      "title": "Arbitrary code execution: included program passed to exec()",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-ssti",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        55,
+        55
+      ],
+      "category": "ssti",
+      "cwe": [
+        1336
+      ],
+      "sast_detectable": true,
+      "anchor": "params[\"tmpl\"].format(open(__file__), os)",
+      "title": "Server-side template (format-string) injection via ?tmpl with os module in scope",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-xss-jsonp",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        59,
+        59
+      ],
+      "category": "xss",
+      "cwe": [
+        79
+      ],
+      "sast_detectable": true,
+      "anchor": "params[\"callback\"]",
+      "title": "JSONP callback XSS: ?callback echoed as executable JavaScript",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-sqli-login",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        61,
+        61
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "sast_detectable": true,
+      "anchor": "\"' AND password='\" + params.get(\"password\", \"\")",
+      "title": "Login bypass SQL injection / HTTP parameter pollution via password",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-weak-session-id",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        62,
+        62
+      ],
+      "category": "weak-random",
+      "cwe": [
+        330
+      ],
+      "sast_detectable": true,
+      "anchor": "random.choices(string.ascii_letters + string.digits, k=20)",
+      "title": "Session ID generated with non-cryptographic random.choices",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-insecure-cookie",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        62,
+        62
+      ],
+      "category": "insecure-cookie",
+      "cwe": [
+        1004
+      ],
+      "sast_detectable": false,
+      "anchor": "SESSIONID=%s; path=/",
+      "title": "Session cookie set without HttpOnly/Secure flags",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-info-disclosure",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        67,
+        67
+      ],
+      "category": "info-disclosure",
+      "cwe": [
+        209
+      ],
+      "sast_detectable": false,
+      "anchor": "traceback.format_exc()",
+      "title": "Full path disclosure: Python traceback returned to the client",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-open-redirect",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        70,
+        70
+      ],
+      "category": "open-redirect",
+      "cwe": [
+        601
+      ],
+      "sast_detectable": true,
+      "anchor": "send_header(\"Location\", LATIN1(params[\"redir\"]))",
+      "title": "Unvalidated redirect via ?redir into Location header",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-xss-protection-off",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        73,
+        73
+      ],
+      "category": "misconfig",
+      "cwe": [
+        693
+      ],
+      "sast_detectable": false,
+      "anchor": "\"X-XSS-Protection\", \"0\"",
+      "title": "Browser XSS filter explicitly disabled",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-header-injection",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        74,
+        74
+      ],
+      "category": "header-injection",
+      "cwe": [
+        113
+      ],
+      "sast_detectable": true,
+      "anchor": "params.get(\"charset\", \"utf8\")",
+      "title": "HTTP response splitting via ?charset in Content-Type header",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-dom-xss",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        8,
+        8
+      ],
+      "category": "xss",
+      "cwe": [
+        79
+      ],
+      "sast_detectable": false,
+      "anchor": "document.write('<div style",
+      "title": "DOM XSS: location.hash written with document.write (JS embedded in a Python string)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-hardcoded-creds",
+      "status": "vuln",
+      "file": "dsvw.py",
+      "lines": [
+        9,
+        9
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": false,
+      "anchor": "<password>7en8aiDoh!</password>",
+      "title": "Plaintext user passwords hardcoded in USERS_XML",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-safe-etree-constant",
+      "status": "safe",
+      "file": "dsvw.py",
+      "lines": [
+        13,
+        13
+      ],
+      "category": "xxe",
+      "cwe": [
+        611
+      ],
+      "anchor": "xml.etree.ElementTree.fromstring(USERS_XML)",
+      "title": "ElementTree only ever parses the constant USERS_XML (no attacker input)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-safe-parameterized-insert",
+      "status": "safe",
+      "file": "dsvw.py",
+      "lines": [
+        13,
+        13
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "VALUES(NULL, ?, ?, ?, ?)",
+      "title": "Seed INSERT uses ? placeholders",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "dsvw-safe-pickle-dumps",
+      "status": "safe",
+      "file": "dsvw.py",
+      "lines": [
+        10,
+        10
+      ],
+      "category": "deserialization",
+      "cwe": [
+        502
+      ],
+      "anchor": "pickle.dumps(",
+      "title": "pickle.dumps of a constant dict to build a demo link (serialization, not deserialization)",
+      "resolution": "as-recorded"
+    }
+  ]
+}

@@ -1,0 +1,1361 @@
+{
+  "run": {
+    "run_id": "2026-11-03T04-34-25-874",
+    "label": "smoke test of harness",
+    "started_at": "2026-11-03T04:34:25.969Z",
+    "finished_at": "2026-11-03T04:35:15.680Z",
+    "api": "http://localhost:4000",
+    "options": {
+      "api": "http://localhost:4000",
+      "tier": "smoke",
+      "maxFixes": 2,
+      "fixClasses": [
+        "tp",
+        "loose",
+        "unlabeled"
+      ],
+      "verify": true,
+      "concurrency": 1,
+      "lineTolerance": 2,
+      "scanTimeoutMs": 1800000,
+      "cacheDir": "C:\\Users\\tharu\\AppData\\Local\\Temp\\securescanai-benchmark-cache",
+      "label": "smoke test of harness"
+    },
+    "securescan_commit": "4e356f6c33c0d7792bea7bca3399b334be3817fc",
+    "securescan_dirty": true,
+    "node": "v22.16.0",
+    "repo_ids": [
+      "dsvw",
+      "vulnerable-flask-app"
+    ],
+    "rematched_at": "2026-11-03T04:39:14.490Z"
+  },
+  "repos_attempted": 2,
+  "repos_ok": 2,
+  "repos_failed": [],
+  "repos_with_ground_truth": 2,
+  "totals": {
+    "findings": 30,
+    "findings_distinct_locations": 27,
+    "findings_by_classification": {
+      "tp": 14,
+      "fp": 3,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 13
+    },
+    "vuln_total": 46,
+    "vuln_detected": 9,
+    "vuln_detected_including_loose": 9,
+    "sast_detectable_total": 31,
+    "sast_detectable_detected": 9,
+    "safe_total": 5,
+    "safe_flagged": 1,
+    "recall": 0.1956521739130435,
+    "recall_including_loose": 0.1956521739130435,
+    "recall_sast_detectable": 0.2903225806451613,
+    "precision": 0.8235294117647058,
+    "false_positive_rate": 0.2,
+    "youden_index": -0.004347826086956524,
+    "scan_ms_total": 32190
+  },
+  "by_category": {
+    "sqli": {
+      "vuln_total": 4,
+      "detected": 1,
+      "detected_loose": 0,
+      "missed": 3,
+      "safe_total": 2,
+      "safe_flagged": 0,
+      "findings_tp": 1,
+      "findings_fp": 0,
+      "recall": 0.25,
+      "false_positive_rate": 0
+    },
+    "xss": {
+      "vuln_total": 4,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 4,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 1,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "deserialization": {
+      "vuln_total": 2,
+      "detected": 2,
+      "detected_loose": 0,
+      "missed": 0,
+      "safe_total": 1,
+      "safe_flagged": 1,
+      "findings_tp": 2,
+      "findings_fp": 1,
+      "recall": 1,
+      "false_positive_rate": 1
+    },
+    "path-traversal": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 1,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": 0
+    },
+    "ssrf": {
+      "vuln_total": 2,
+      "detected": 1,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 1,
+      "findings_fp": 0,
+      "recall": 0.5,
+      "false_positive_rate": null
+    },
+    "cmdi": {
+      "vuln_total": 1,
+      "detected": 1,
+      "detected_loose": 0,
+      "missed": 0,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 1,
+      "findings_fp": 0,
+      "recall": 1,
+      "false_positive_rate": null
+    },
+    "xxe": {
+      "vuln_total": 2,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 2,
+      "safe_total": 1,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 1,
+      "recall": 0,
+      "false_positive_rate": 0
+    },
+    "xpath": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "dos": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "csrf": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "file-inclusion": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "code-injection": {
+      "vuln_total": 1,
+      "detected": 1,
+      "detected_loose": 0,
+      "missed": 0,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 1,
+      "findings_fp": 0,
+      "recall": 1,
+      "false_positive_rate": null
+    },
+    "ssti": {
+      "vuln_total": 3,
+      "detected": 2,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 6,
+      "findings_fp": 0,
+      "recall": 0.6666666666666666,
+      "false_positive_rate": null
+    },
+    "weak-random": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "insecure-cookie": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "info-disclosure": {
+      "vuln_total": 3,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 3,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "open-redirect": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "misconfig": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "header-injection": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "hardcoded-secret": {
+      "vuln_total": 5,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 5,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "jwt": {
+      "vuln_total": 3,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 3,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "weak-hash": {
+      "vuln_total": 1,
+      "detected": 1,
+      "detected_loose": 0,
+      "missed": 0,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 2,
+      "findings_fp": 0,
+      "recall": 1,
+      "false_positive_rate": null
+    },
+    "authn": {
+      "vuln_total": 1,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 1,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "authz": {
+      "vuln_total": 2,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 2,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    },
+    "file-upload": {
+      "vuln_total": 2,
+      "detected": 0,
+      "detected_loose": 0,
+      "missed": 2,
+      "safe_total": 0,
+      "safe_flagged": 0,
+      "findings_tp": 0,
+      "findings_fp": 0,
+      "recall": 0,
+      "false_positive_rate": null
+    }
+  },
+  "by_rule": {
+    "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag": {
+      "short_rule": "github-actions/github-actions-mutable-action-tag",
+      "total": 11,
+      "tp": 0,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 11,
+      "repos": [
+        "dsvw",
+        "vulnerable-flask-app"
+      ],
+      "precision": null
+    },
+    "python.lang.security.use-defused-xml.use-defused-xml": {
+      "short_rule": "lang/use-defused-xml",
+      "total": 1,
+      "tp": 0,
+      "fp": 1,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "dsvw"
+      ],
+      "precision": 0
+    },
+    "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected": {
+      "short_rule": "lang/dynamic-urllib-use-detected",
+      "total": 1,
+      "tp": 1,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "dsvw"
+      ],
+      "precision": 1
+    },
+    "python.lang.security.deserialization.pickle.avoid-pickle": {
+      "short_rule": "lang/avoid-pickle",
+      "total": 2,
+      "tp": 1,
+      "fp": 1,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "dsvw"
+      ],
+      "precision": 0.5
+    },
+    "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true": {
+      "short_rule": "lang/subprocess-shell-true",
+      "total": 1,
+      "tp": 1,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "dsvw"
+      ],
+      "precision": 1
+    },
+    "python.lang.security.audit.exec-detected.exec-detected": {
+      "short_rule": "lang/exec-detected",
+      "total": 1,
+      "tp": 1,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "dsvw"
+      ],
+      "precision": 1
+    },
+    "dockerfile.security.missing-user-entrypoint.missing-user-entrypoint": {
+      "short_rule": "security/missing-user-entrypoint",
+      "total": 1,
+      "tp": 0,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 1,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": null
+    },
+    "dockerfile.security.missing-user.missing-user": {
+      "short_rule": "security/missing-user",
+      "total": 1,
+      "tp": 0,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 1,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": null
+    },
+    "python.flask.security.dangerous-template-string.dangerous-template-string": {
+      "short_rule": "flask/dangerous-template-string",
+      "total": 2,
+      "tp": 2,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": 1
+    },
+    "python.django.security.injection.raw-html-format.raw-html-format": {
+      "short_rule": "django/raw-html-format",
+      "total": 1,
+      "tp": 1,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": 1
+    },
+    "python.flask.security.injection.raw-html-concat.raw-html-format": {
+      "short_rule": "flask/raw-html-format",
+      "total": 1,
+      "tp": 1,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": 1
+    },
+    "python.flask.security.audit.render-template-string.render-template-string": {
+      "short_rule": "flask/render-template-string",
+      "total": 2,
+      "tp": 2,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": 1
+    },
+    "python.lang.security.insecure-hash-algorithms-md5.insecure-hash-algorithm-md5": {
+      "short_rule": "lang/insecure-hash-algorithm-md5",
+      "total": 1,
+      "tp": 1,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": 1
+    },
+    "python.lang.security.audit.md5-used-as-password.md5-used-as-password": {
+      "short_rule": "lang/md5-used-as-password",
+      "total": 1,
+      "tp": 1,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": 1
+    },
+    "python.flask.security.injection.tainted-sql-string.tainted-sql-string": {
+      "short_rule": "flask/tainted-sql-string",
+      "total": 1,
+      "tp": 1,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": 1
+    },
+    "python.flask.security.insecure-deserialization.insecure-deserialization": {
+      "short_rule": "flask/insecure-deserialization",
+      "total": 1,
+      "tp": 1,
+      "fp": 0,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": 1
+    },
+    "generic.html-templates.security.var-in-href.var-in-href": {
+      "short_rule": "html-templates/var-in-href",
+      "total": 1,
+      "tp": 0,
+      "fp": 1,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 0,
+      "repos": [
+        "vulnerable-flask-app"
+      ],
+      "precision": 0
+    }
+  },
+  "fixes": {
+    "attempted": 4,
+    "generated": 0,
+    "generation_errors": 4,
+    "generation_error_kinds": {
+      "auth-error": 4
+    },
+    "verification_attempted": 0,
+    "verified": 0,
+    "verification_failed": 0,
+    "verification_errors": 0,
+    "generation_rate": 0,
+    "verified_rate_of_generated": null,
+    "end_to_end_rate": 0,
+    "verified_without_red_flags": 0,
+    "red_flags": {},
+    "median_fix_latency_ms": null,
+    "median_verify_latency_ms": null
+  },
+  "repos": [
+    {
+      "id": "dsvw",
+      "name": "Damn Small Vulnerable Web",
+      "language": "python",
+      "framework": "stdlib http.server",
+      "tier": "smoke",
+      "url": "https://github.com/stamparm/DSVW",
+      "status": "ok",
+      "error": null,
+      "head_sha": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+      "head_moved_during_scan": false,
+      "ground_truth": {
+        "source": "Hand-authored by reading dsvw.py line by line and cross-checking against the CASES attack list the app itself ships (dsvw.py:10). Scope is the application file only; tests/, Dockerfile and .github/ are out of scope.",
+        "commit": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+        "complete": true,
+        "unmatched_policy": "fp",
+        "strict_categories": false,
+        "entries": 29,
+        "relocated": 0,
+        "stale": []
+      },
+      "timings": {
+        "timeline": [
+          {
+            "status": "CLONING",
+            "at_ms": 12
+          },
+          {
+            "status": "SCANNING",
+            "at_ms": 4025
+          },
+          {
+            "status": "COMPLETED",
+            "at_ms": 16109
+          }
+        ],
+        "clone_ms": 4013,
+        "scan_ms": 12084,
+        "total_ms": 20398
+      },
+      "scanner": {
+        "name": "Semgrep",
+        "version": "1.177.0",
+        "command": "semgrep scan --config p/security-audit --config p/secrets --config p/sql-injection --config p/flask --config p/owasp-top-ten --json --quiet --metrics=off --no-git-ignore C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51",
+        "errors": 0
+      },
+      "metrics": {
+        "ground_truth_complete": true,
+        "unmatched_policy": "fp",
+        "findings_total": 10,
+        "findings_distinct_locations": 10,
+        "findings_by_classification": {
+          "tp": 4,
+          "fp": 2,
+          "loose": 0,
+          "unlabeled": 0,
+          "ignored": 0,
+          "out-of-scope": 4
+        },
+        "entries_total": 29,
+        "entries_stale": 0,
+        "vuln_total": 26,
+        "vuln_detected": 4,
+        "vuln_detected_including_loose": 4,
+        "vuln_missed": 22,
+        "sast_detectable_total": 19,
+        "sast_detectable_detected": 4,
+        "safe_total": 3,
+        "safe_flagged": 1,
+        "recall": 0.15384615384615385,
+        "recall_including_loose": 0.15384615384615385,
+        "recall_sast_detectable": 0.21052631578947367,
+        "precision": 0.6666666666666666,
+        "false_positive_rate": 0.3333333333333333,
+        "youden_index": -0.17948717948717946,
+        "by_category": {
+          "sqli": {
+            "vuln_total": 3,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 3,
+            "safe_total": 1,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "xss": {
+            "vuln_total": 4,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 4,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "deserialization": {
+            "vuln_total": 1,
+            "detected": 1,
+            "detected_loose": 0,
+            "missed": 0,
+            "safe_total": 1,
+            "safe_flagged": 1,
+            "findings_tp": 1,
+            "findings_fp": 1
+          },
+          "path-traversal": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "ssrf": {
+            "vuln_total": 2,
+            "detected": 1,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 1,
+            "findings_fp": 0
+          },
+          "cmdi": {
+            "vuln_total": 1,
+            "detected": 1,
+            "detected_loose": 0,
+            "missed": 0,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 1,
+            "findings_fp": 0
+          },
+          "xxe": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 1,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 1
+          },
+          "xpath": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "dos": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "csrf": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "file-inclusion": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "code-injection": {
+            "vuln_total": 1,
+            "detected": 1,
+            "detected_loose": 0,
+            "missed": 0,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 1,
+            "findings_fp": 0
+          },
+          "ssti": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "weak-random": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "insecure-cookie": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "info-disclosure": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "open-redirect": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "misconfig": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "header-injection": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "hardcoded-secret": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          }
+        },
+        "by_rule": {
+          "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag": {
+            "short_rule": "github-actions/github-actions-mutable-action-tag",
+            "total": 4,
+            "tp": 0,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 4
+          },
+          "python.lang.security.use-defused-xml.use-defused-xml": {
+            "short_rule": "lang/use-defused-xml",
+            "total": 1,
+            "tp": 0,
+            "fp": 1,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected": {
+            "short_rule": "lang/dynamic-urllib-use-detected",
+            "total": 1,
+            "tp": 1,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.lang.security.deserialization.pickle.avoid-pickle": {
+            "short_rule": "lang/avoid-pickle",
+            "total": 2,
+            "tp": 1,
+            "fp": 1,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true": {
+            "short_rule": "lang/subprocess-shell-true",
+            "total": 1,
+            "tp": 1,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.lang.security.audit.exec-detected.exec-detected": {
+            "short_rule": "lang/exec-detected",
+            "total": 1,
+            "tp": 1,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          }
+        },
+        "by_severity": {
+          "WARNING": {
+            "total": 8,
+            "tp": 3,
+            "fp": 1
+          },
+          "ERROR": {
+            "total": 2,
+            "tp": 1,
+            "fp": 1
+          }
+        }
+      },
+      "fixes": {
+        "attempted": 2,
+        "generated": 0,
+        "generation_errors": 2,
+        "generation_error_kinds": {
+          "auth-error": 2
+        },
+        "verification_attempted": 0,
+        "verified": 0,
+        "verification_failed": 0,
+        "verification_errors": 0,
+        "generation_rate": 0,
+        "verified_rate_of_generated": null,
+        "end_to_end_rate": 0,
+        "verified_without_red_flags": 0,
+        "red_flags": {},
+        "median_fix_latency_ms": null,
+        "median_verify_latency_ms": null
+      }
+    },
+    {
+      "id": "vulnerable-flask-app",
+      "name": "we45 Vulnerable Flask App",
+      "language": "python",
+      "framework": "flask",
+      "tier": "smoke",
+      "url": "https://github.com/we45/Vulnerable-Flask-App",
+      "status": "ok",
+      "error": null,
+      "head_sha": "b6a4f97afd466e83e1f60781494252dec1c37039",
+      "head_moved_during_scan": false,
+      "ground_truth": {
+        "source": "Hand-authored by reading app/app.py and app/templates/* in full. app/static/loader.js is a vendored, minified Closure loader and is out of scope. Unmatched in-scope findings count as false positives; review them in the report and promote any genuine issue to a new entry.",
+        "commit": "b6a4f97afd466e83e1f60781494252dec1c37039",
+        "complete": true,
+        "unmatched_policy": "fp",
+        "strict_categories": false,
+        "entries": 22,
+        "relocated": 0,
+        "stale": []
+      },
+      "timings": {
+        "timeline": [
+          {
+            "status": "CLONING",
+            "at_ms": 7
+          },
+          {
+            "status": "SCANNING",
+            "at_ms": 4024
+          },
+          {
+            "status": "COMPLETED",
+            "at_ms": 24130
+          }
+        ],
+        "clone_ms": 4017,
+        "scan_ms": 20106,
+        "total_ms": 29247
+      },
+      "scanner": {
+        "name": "Semgrep",
+        "version": "1.177.0",
+        "command": "semgrep scan --config p/security-audit --config p/secrets --config p/sql-injection --config p/flask --config p/owasp-top-ten --json --quiet --metrics=off --no-git-ignore C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\13632588-abb4-4c58-bf23-aa4e138bf812",
+        "errors": 0
+      },
+      "metrics": {
+        "ground_truth_complete": true,
+        "unmatched_policy": "fp",
+        "findings_total": 20,
+        "findings_distinct_locations": 17,
+        "findings_by_classification": {
+          "tp": 10,
+          "fp": 1,
+          "loose": 0,
+          "unlabeled": 0,
+          "ignored": 0,
+          "out-of-scope": 9
+        },
+        "entries_total": 22,
+        "entries_stale": 0,
+        "vuln_total": 20,
+        "vuln_detected": 5,
+        "vuln_detected_including_loose": 5,
+        "vuln_missed": 15,
+        "sast_detectable_total": 12,
+        "sast_detectable_detected": 5,
+        "safe_total": 2,
+        "safe_flagged": 0,
+        "recall": 0.25,
+        "recall_including_loose": 0.25,
+        "recall_sast_detectable": 0.4166666666666667,
+        "precision": 0.9090909090909091,
+        "false_positive_rate": 0,
+        "youden_index": 0.25,
+        "by_category": {
+          "hardcoded-secret": {
+            "vuln_total": 4,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 4,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "jwt": {
+            "vuln_total": 3,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 3,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "ssti": {
+            "vuln_total": 2,
+            "detected": 2,
+            "detected_loose": 0,
+            "missed": 0,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 6,
+            "findings_fp": 0
+          },
+          "weak-hash": {
+            "vuln_total": 1,
+            "detected": 1,
+            "detected_loose": 0,
+            "missed": 0,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 2,
+            "findings_fp": 0
+          },
+          "info-disclosure": {
+            "vuln_total": 2,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 2,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "authn": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "authz": {
+            "vuln_total": 2,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 2,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "sqli": {
+            "vuln_total": 1,
+            "detected": 1,
+            "detected_loose": 0,
+            "missed": 0,
+            "safe_total": 1,
+            "safe_flagged": 0,
+            "findings_tp": 1,
+            "findings_fp": 0
+          },
+          "file-upload": {
+            "vuln_total": 2,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 2,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "xxe": {
+            "vuln_total": 1,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 1,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "deserialization": {
+            "vuln_total": 1,
+            "detected": 1,
+            "detected_loose": 0,
+            "missed": 0,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 1,
+            "findings_fp": 0
+          },
+          "path-traversal": {
+            "vuln_total": 0,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 0,
+            "safe_total": 1,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 0
+          },
+          "xss": {
+            "vuln_total": 0,
+            "detected": 0,
+            "detected_loose": 0,
+            "missed": 0,
+            "safe_total": 0,
+            "safe_flagged": 0,
+            "findings_tp": 0,
+            "findings_fp": 1
+          }
+        },
+        "by_rule": {
+          "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag": {
+            "short_rule": "github-actions/github-actions-mutable-action-tag",
+            "total": 7,
+            "tp": 0,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 7
+          },
+          "dockerfile.security.missing-user-entrypoint.missing-user-entrypoint": {
+            "short_rule": "security/missing-user-entrypoint",
+            "total": 1,
+            "tp": 0,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 1
+          },
+          "dockerfile.security.missing-user.missing-user": {
+            "short_rule": "security/missing-user",
+            "total": 1,
+            "tp": 0,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 1
+          },
+          "python.flask.security.dangerous-template-string.dangerous-template-string": {
+            "short_rule": "flask/dangerous-template-string",
+            "total": 2,
+            "tp": 2,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.django.security.injection.raw-html-format.raw-html-format": {
+            "short_rule": "django/raw-html-format",
+            "total": 1,
+            "tp": 1,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.flask.security.injection.raw-html-concat.raw-html-format": {
+            "short_rule": "flask/raw-html-format",
+            "total": 1,
+            "tp": 1,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.flask.security.audit.render-template-string.render-template-string": {
+            "short_rule": "flask/render-template-string",
+            "total": 2,
+            "tp": 2,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.lang.security.insecure-hash-algorithms-md5.insecure-hash-algorithm-md5": {
+            "short_rule": "lang/insecure-hash-algorithm-md5",
+            "total": 1,
+            "tp": 1,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.lang.security.audit.md5-used-as-password.md5-used-as-password": {
+            "short_rule": "lang/md5-used-as-password",
+            "total": 1,
+            "tp": 1,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.flask.security.injection.tainted-sql-string.tainted-sql-string": {
+            "short_rule": "flask/tainted-sql-string",
+            "total": 1,
+            "tp": 1,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "python.flask.security.insecure-deserialization.insecure-deserialization": {
+            "short_rule": "flask/insecure-deserialization",
+            "total": 1,
+            "tp": 1,
+            "fp": 0,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          },
+          "generic.html-templates.security.var-in-href.var-in-href": {
+            "short_rule": "html-templates/var-in-href",
+            "total": 1,
+            "tp": 0,
+            "fp": 1,
+            "loose": 0,
+            "unlabeled": 0,
+            "ignored": 0,
+            "out-of-scope": 0
+          }
+        },
+        "by_severity": {
+          "WARNING": {
+            "total": 14,
+            "tp": 6,
+            "fp": 1
+          },
+          "ERROR": {
+            "total": 6,
+            "tp": 4,
+            "fp": 0
+          }
+        }
+      },
+      "fixes": {
+        "attempted": 2,
+        "generated": 0,
+        "generation_errors": 2,
+        "generation_error_kinds": {
+          "auth-error": 2
+        },
+        "verification_attempted": 0,
+        "verified": 0,
+        "verification_failed": 0,
+        "verification_errors": 0,
+        "generation_rate": 0,
+        "verified_rate_of_generated": null,
+        "end_to_end_rate": 0,
+        "verified_without_red_flags": 0,
+        "red_flags": {},
+        "median_fix_latency_ms": null,
+        "median_verify_latency_ms": null
+      }
+    }
+  ]
+}

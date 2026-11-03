@@ -1,0 +1,44 @@
+[
+  {
+    "finding_index": 6,
+    "rule_id": "python.flask.security.dangerous-template-string.dangerous-template-string",
+    "file": "app/app.py",
+    "start_line": 103,
+    "severity": "ERROR",
+    "classification": "tp",
+    "categories": [
+      "code-injection"
+    ],
+    "matched_entries": [
+      "vfa-ssti-404"
+    ],
+    "fix": {
+      "ok": false,
+      "latency_ms": 1697,
+      "error": "OpenRouter request failed (401): {\"error\":{\"message\":\"API key expired.\",\"code\":401,\"metadata\":{\"headers\":{\"WWW-Authenticate\":\"Bearer error=\\\"invalid_token\\\", error_description=\\\"API key expired\\\"\"}}}}",
+      "http_status": 502
+    },
+    "verification": null
+  },
+  {
+    "finding_index": 12,
+    "rule_id": "python.flask.security.injection.tainted-sql-string.tainted-sql-string",
+    "file": "app/app.py",
+    "start_line": 261,
+    "severity": "ERROR",
+    "classification": "tp",
+    "categories": [
+      "sqli"
+    ],
+    "matched_entries": [
+      "vfa-sqli-search"
+    ],
+    "fix": {
+      "ok": false,
+      "latency_ms": 221,
+      "error": "OpenRouter request failed (401): {\"error\":{\"message\":\"API key expired.\",\"code\":401,\"metadata\":{\"headers\":{\"WWW-Authenticate\":\"Bearer error=\\\"invalid_token\\\", error_description=\\\"API key expired\\\"\"}}}}",
+      "http_status": 502
+    },
+    "verification": null
+  }
+]

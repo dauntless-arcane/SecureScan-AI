@@ -1,0 +1,391 @@
+{
+  "repo_id": "vulnerable-flask-app",
+  "commit": "b6a4f97afd466e83e1f60781494252dec1c37039",
+  "complete": true,
+  "unmatched_policy": "fp",
+  "scope": {
+    "include": [
+      "app/**"
+    ],
+    "exclude": [
+      "app/static/**",
+      "app/test.db",
+      "app/Files/**"
+    ]
+  },
+  "source": "Hand-authored by reading app/app.py and app/templates/* in full. app/static/loader.js is a vendored, minified Closure loader and is out of scope. Unmatched in-scope findings count as false positives; review them in the report and promote any genuine issue to a new entry.",
+  "entries": [
+    {
+      "id": "vfa-secret-hmac",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        26,
+        26
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "app.config['SECRET_KEY_HMAC'] = 'secret'",
+      "title": "Hardcoded (and trivially guessable) JWT HMAC key",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-secret-hmac-2",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        27,
+        27
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "app.config['SECRET_KEY_HMAC_2'] =",
+      "title": "Second hardcoded HMAC key",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-secret-key",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        28,
+        28
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "app.secret_key = ",
+      "title": "Hardcoded Flask secret_key (session signing)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-default-admin",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        62,
+        63
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "user.password = 'admin123'",
+      "title": "Default admin account with hardcoded password",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-jwt-hardcoded-verify",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        86,
+        86
+      ],
+      "category": "jwt",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "jwt.decode(token, app.config['SECRET_KEY_HMAC']",
+      "title": "JWT verified with the hardcoded 'secret' key",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-jwt-hardcoded-sign",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        184,
+        184
+      ],
+      "category": "jwt",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "jwt.encode({'user': username",
+      "title": "JWT signed with the hardcoded 'secret' key",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-jwt-no-verify",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        97,
+        97
+      ],
+      "category": "jwt",
+      "cwe": [
+        347
+      ],
+      "sast_detectable": true,
+      "anchor": "jwt.decode(token, verify = False)",
+      "title": "JWT decoded without signature verification (used by /get/<cust_id>)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-ssti-404",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        103,
+        114
+      ],
+      "category": "ssti",
+      "cwe": [
+        1336
+      ],
+      "sast_detectable": true,
+      "anchor": "render_template_string(template, dir = dir",
+      "title": "SSTI: request.url %-formatted into a template rendered with render_template_string (404 handler)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-md5-password",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        141,
+        141
+      ],
+      "category": "weak-hash",
+      "cwe": [
+        328
+      ],
+      "sast_detectable": true,
+      "anchor": "hashlib.md5(password)",
+      "title": "Passwords hashed with unsalted MD5",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-error-leak-user",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        148,
+        148
+      ],
+      "category": "info-disclosure",
+      "cwe": [
+        209
+      ],
+      "sast_detectable": false,
+      "anchor": "return jsonify({'Error': str(e.message)}),404",
+      "title": "Exception message returned to client (/register/user)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-error-leak-customer",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        167,
+        167
+      ],
+      "category": "info-disclosure",
+      "cwe": [
+        209
+      ],
+      "sast_detectable": false,
+      "anchor": "return jsonify({'Error': str(e.message)}),404",
+      "title": "Exception message returned to client (/register/customer)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-plaintext-password-auth",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        182,
+        182
+      ],
+      "category": "authn",
+      "cwe": [
+        256
+      ],
+      "sast_detectable": false,
+      "anchor": "User.query.filter_by(username = username, password = password)",
+      "title": "Passwords stored and compared in plaintext",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-idor-fetch",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        207,
+        212
+      ],
+      "category": "authz",
+      "cwe": [
+        639
+      ],
+      "sast_detectable": false,
+      "anchor": "Customer.query.get(customer_id)",
+      "title": "IDOR: any authenticated user can fetch any customer (incl. card number) by id",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-idor-get",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        230,
+        237
+      ],
+      "category": "authz",
+      "cwe": [
+        639
+      ],
+      "sast_detectable": false,
+      "anchor": "Customer.query.get(cust_id)",
+      "title": "IDOR + broken auth: unverified JWT grants access to any customer record",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-sqli-search",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        261,
+        265
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "sast_detectable": true,
+      "anchor": "WHERE username = '%s';\" % search_term",
+      "title": "SQL injection: search term %-formatted into raw SQL executed by db.engine.execute",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-ssti-search-error",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        271,
+        281
+      ],
+      "category": "ssti",
+      "cwe": [
+        1336
+      ],
+      "sast_detectable": true,
+      "anchor": "render_template_string(template, dir=dir, help=help, locals=locals), 404",
+      "title": "SSTI: exception text (attacker-influenced) rendered via render_template_string",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-upload-xxe",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        294,
+        300
+      ],
+      "category": "file-upload",
+      "cwe": [
+        434
+      ],
+      "sast_detectable": false,
+      "anchor": "f.save(file_path)",
+      "title": "Unrestricted upload written under the app directory (/xxe_uploader)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-xxe-docx",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        303,
+        303
+      ],
+      "category": "xxe",
+      "cwe": [
+        611
+      ],
+      "sast_detectable": false,
+      "anchor": "document = Document(file_path)",
+      "title": "Uploaded .docx parsed (intended XXE challenge)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-upload-yaml",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        318,
+        324
+      ],
+      "category": "file-upload",
+      "cwe": [
+        434
+      ],
+      "sast_detectable": false,
+      "anchor": "f.save(file_path)",
+      "title": "Unrestricted upload written under the app directory (/yaml_hammer)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-yaml-load",
+      "status": "vuln",
+      "file": "app/app.py",
+      "lines": [
+        329,
+        329
+      ],
+      "category": "deserialization",
+      "cwe": [
+        502
+      ],
+      "sast_detectable": true,
+      "anchor": "yaml.load(y)",
+      "title": "Unsafe yaml.load on uploaded file (arbitrary object construction)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-safe-secure-filename",
+      "status": "safe",
+      "file": "app/app.py",
+      "lines": [
+        296,
+        299
+      ],
+      "category": "path-traversal",
+      "cwe": [
+        22
+      ],
+      "anchor": "secure_filename(f.filename)",
+      "title": "Upload filename passed through werkzeug secure_filename before joining",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vfa-safe-orm-filter",
+      "status": "safe",
+      "file": "app/app.py",
+      "lines": [
+        182,
+        182
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "User.query.filter_by(",
+      "title": "SQLAlchemy filter_by is parameterized",
+      "resolution": "as-recorded"
+    }
+  ]
+}

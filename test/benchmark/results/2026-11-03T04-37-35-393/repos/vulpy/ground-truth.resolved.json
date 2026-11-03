@@ -1,0 +1,819 @@
+{
+  "repo_id": "vulpy",
+  "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+  "complete": false,
+  "unmatched_policy": "unlabeled",
+  "scope": {
+    "include": [
+      "bad/**",
+      "good/**"
+    ],
+    "exclude": [
+      "**/payloads/**",
+      "**/static/**",
+      "**/*.txt",
+      "**/*.mmdb"
+    ]
+  },
+  "source": "Hand-authored from bad/*.py, good/*.py and templates. good/ is the author's hardened rewrite but is NOT fully clean (README: 'not finished yet'), so it contributes both vuln entries and deliberately safe entries. Safe entries at the exact places bad/ is vulnerable are what drive the false-positive rate. utils/ is out of scope.",
+  "entries": [
+    {
+      "id": "vb-sqli-login",
+      "status": "vuln",
+      "file": "bad/libuser.py",
+      "lines": [
+        12,
+        12
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "sast_detectable": true,
+      "anchor": "WHERE username = '{}' and password = '{}'",
+      "title": "Login SQL injection (str.format into SELECT)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-sqli-create",
+      "status": "vuln",
+      "file": "bad/libuser.py",
+      "lines": [
+        25,
+        25
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "sast_detectable": true,
+      "anchor": "VALUES ('%s', '%s', '%d', '%d', '%s')\" %(username, password",
+      "title": "User creation SQL injection (%-format into INSERT)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-plaintext-passwords",
+      "status": "vuln",
+      "file": "bad/libuser.py",
+      "lines": [
+        25,
+        25
+      ],
+      "category": "authn",
+      "cwe": [
+        256
+      ],
+      "sast_detectable": false,
+      "anchor": "VALUES ('%s', '%s', '%d', '%d', '%s')\" %(username, password",
+      "title": "Passwords stored in plaintext",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-sqli-chpasswd",
+      "status": "vuln",
+      "file": "bad/libuser.py",
+      "lines": [
+        53,
+        53
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "sast_detectable": true,
+      "anchor": "UPDATE users SET password = '{}' WHERE username = '{}'",
+      "title": "Password change SQL injection",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-no-password-policy",
+      "status": "vuln",
+      "file": "bad/libuser.py",
+      "lines": [
+        59,
+        60
+      ],
+      "category": "authn",
+      "cwe": [
+        521
+      ],
+      "sast_detectable": false,
+      "anchor": "def password_complexity(password):",
+      "title": "Password complexity check always returns True",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-weak-random-apikey",
+      "status": "vuln",
+      "file": "bad/libapi.py",
+      "lines": [
+        14,
+        14
+      ],
+      "category": "weak-random",
+      "cwe": [
+        338
+      ],
+      "sast_detectable": true,
+      "anchor": "random.getrandbits(2048)",
+      "title": "API key derived from Mersenne Twister random.getrandbits",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-path-injection-keygen",
+      "status": "vuln",
+      "file": "bad/libapi.py",
+      "lines": [
+        16,
+        22
+      ],
+      "category": "path-traversal",
+      "cwe": [
+        22
+      ],
+      "sast_detectable": true,
+      "anchor": "'/tmp/vulpy.apikey.{}.{}'.format(username, key)",
+      "title": "Username interpolated into /tmp glob and file path (traversal / deleting other users' keys)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-apikey-glob-bypass",
+      "status": "vuln",
+      "file": "bad/libapi.py",
+      "lines": [
+        33,
+        34
+      ],
+      "category": "authn",
+      "cwe": [
+        287
+      ],
+      "sast_detectable": false,
+      "anchor": "Path('/tmp/').glob('vulpy.apikey.*.' + key)",
+      "title": "API auth bypass: X-APIKEY '*' is a glob wildcard matching any user's key",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-unsigned-session",
+      "status": "vuln",
+      "file": "bad/libsession.py",
+      "lines": [
+        5,
+        8
+      ],
+      "category": "authn",
+      "cwe": [
+        565
+      ],
+      "sast_detectable": false,
+      "anchor": "base64.b64encode(json.dumps({'username': username}).encode())",
+      "title": "Session cookie is unsigned base64 JSON: forge any username",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-cookie-flags",
+      "status": "vuln",
+      "file": "bad/libsession.py",
+      "lines": [
+        7,
+        7
+      ],
+      "category": "insecure-cookie",
+      "cwe": [
+        1004
+      ],
+      "sast_detectable": true,
+      "anchor": "response.set_cookie('vulpy_session', session)",
+      "title": "Session cookie without HttpOnly/Secure/SameSite",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-mass-assignment",
+      "status": "vuln",
+      "file": "bad/mod_api.py",
+      "lines": [
+        62,
+        62
+      ],
+      "category": "mass-assignment",
+      "cwe": [
+        915
+      ],
+      "sast_detectable": false,
+      "anchor": "data.update(request.get_json())",
+      "title": "Request JSON can overwrite the authenticated 'username' (post as anyone)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-csrf-mfa-disable",
+      "status": "vuln",
+      "file": "bad/mod_mfa.py",
+      "lines": [
+        57,
+        64
+      ],
+      "category": "csrf",
+      "cwe": [
+        352
+      ],
+      "sast_detectable": false,
+      "anchor": "libmfa.mfa_disable(g.session['username'])",
+      "title": "MFA disabled by a plain GET (CSRF)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-csrf-chpasswd",
+      "status": "vuln",
+      "file": "bad/mod_user.py",
+      "lines": [
+        64,
+        83
+      ],
+      "category": "csrf",
+      "cwe": [
+        352
+      ],
+      "sast_detectable": false,
+      "anchor": "libuser.password_change(g.session['username'], password)",
+      "title": "Password change without CSRF token or current password",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-xss-posts",
+      "status": "vuln",
+      "file": "bad/templates/posts.view.html",
+      "lines": [
+        23,
+        23
+      ],
+      "category": "xss",
+      "cwe": [
+        79
+      ],
+      "sast_detectable": true,
+      "anchor": "{{ post.text | safe }}",
+      "title": "Stored XSS: post text rendered with |safe",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-secret-key",
+      "status": "vuln",
+      "file": "bad/vulpy.py",
+      "lines": [
+        16,
+        16
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "app.config['SECRET_KEY'] = 'aaaaaaa'",
+      "title": "Hardcoded Flask SECRET_KEY",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-debug",
+      "status": "vuln",
+      "file": "bad/vulpy.py",
+      "lines": [
+        55,
+        55
+      ],
+      "category": "debug-mode",
+      "cwe": [
+        489
+      ],
+      "sast_detectable": true,
+      "anchor": "app.run(debug=True",
+      "title": "Flask debug mode (Werkzeug console)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-ssl-secret-key",
+      "status": "vuln",
+      "file": "bad/vulpy-ssl.py",
+      "lines": [
+        13,
+        13
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "app.config['SECRET_KEY'] = 'aaaaaaa'",
+      "title": "Hardcoded Flask SECRET_KEY (SSL entrypoint)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-ssl-debug",
+      "status": "vuln",
+      "file": "bad/vulpy-ssl.py",
+      "lines": [
+        29,
+        29
+      ],
+      "category": "debug-mode",
+      "cwe": [
+        489
+      ],
+      "sast_detectable": true,
+      "anchor": "app.run(debug=True",
+      "title": "Flask debug mode (SSL entrypoint)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-seed-creds-db",
+      "status": "vuln",
+      "file": "bad/db.py",
+      "lines": [
+        8,
+        10
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": false,
+      "anchor": "pbkdf2_sha256.encrypt('123456')",
+      "title": "Hardcoded weak seed passwords",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-seed-creds-init",
+      "status": "vuln",
+      "file": "bad/db_init.py",
+      "lines": [
+        10,
+        12
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": false,
+      "anchor": "('admin', 'SuperSecret')",
+      "title": "Hardcoded weak seed passwords",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-safe-seed-format-db",
+      "status": "safe",
+      "file": "bad/db.py",
+      "lines": [
+        19,
+        19
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "VALUES ('%s', '%s', '%d')\" %(u, p, 0)",
+      "title": "Formatted INSERT, but only over the constant seed list (no attacker input). Debatable: flagging it is a style finding, not an exploitable bug.",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-safe-seed-format-init",
+      "status": "safe",
+      "file": "bad/db_init.py",
+      "lines": [
+        20,
+        20
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "VALUES ('%s', '%s', '%d', '%d', '%s')\" %(u, p, 0, 0, '')",
+      "title": "Formatted INSERT over constant seed data only (debatable, see above)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-safe-posts-select",
+      "status": "safe",
+      "file": "bad/libposts.py",
+      "lines": [
+        14,
+        14
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "WHERE username = ? ORDER BY date DESC",
+      "title": "Parameterized SELECT",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-safe-posts-insert",
+      "status": "safe",
+      "file": "bad/libposts.py",
+      "lines": [
+        28,
+        28
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "VALUES (?, ?, DateTime('now'))",
+      "title": "Parameterized INSERT",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-safe-mfa-enabled",
+      "status": "safe",
+      "file": "bad/libmfa.py",
+      "lines": [
+        12,
+        12
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "WHERE username = ? and mfa_enabled = 1",
+      "title": "Parameterized SELECT",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-safe-mfa-disable",
+      "status": "safe",
+      "file": "bad/libmfa.py",
+      "lines": [
+        27,
+        27
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "SET mfa_enabled = 0 WHERE username = ?",
+      "title": "Parameterized UPDATE",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-safe-mfa-secret",
+      "status": "safe",
+      "file": "bad/libmfa.py",
+      "lines": [
+        78,
+        78
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "SET mfa_secret = ? WHERE username = ?",
+      "title": "Parameterized UPDATE",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-safe-mfa-random",
+      "status": "safe",
+      "file": "bad/libmfa.py",
+      "lines": [
+        69,
+        69
+      ],
+      "category": "weak-random",
+      "cwe": [
+        338
+      ],
+      "anchor": "secret=pyotp.random_base32()",
+      "title": "TOTP secret from pyotp.random_base32 (uses secrets/SystemRandom)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vb-safe-brute-subprocess",
+      "status": "safe",
+      "file": "bad/brute.py",
+      "lines": [
+        21,
+        21
+      ],
+      "category": "cmdi",
+      "cwe": [
+        78
+      ],
+      "anchor": "subprocess.run([program, username, password]",
+      "title": "Local CLI helper, argv list without shell (operator-supplied)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-sqli-user-create",
+      "status": "vuln",
+      "file": "good/libuser.py",
+      "lines": [
+        61,
+        61
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "sast_detectable": true,
+      "anchor": "VALUES ('%s', '%s', '%s', '%d', '%d', '%s')\" %(username",
+      "title": "Hardened version still %-formats username into INSERT",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-hardcoded-fernet",
+      "status": "vuln",
+      "file": "good/libsession.py",
+      "lines": [
+        9,
+        9
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        321
+      ],
+      "sast_detectable": true,
+      "anchor": "key = 'JHtM1wEt1I1J9N_Evjwqr3yYauXIqSxYzFnRhcf0ZG0='",
+      "title": "Hardcoded Fernet session-encryption key",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-cookie-flags",
+      "status": "vuln",
+      "file": "good/libsession.py",
+      "lines": [
+        32,
+        34
+      ],
+      "category": "insecure-cookie",
+      "cwe": [
+        1004
+      ],
+      "sast_detectable": true,
+      "anchor": "response.set_cookie('vulpy_session', fernet.encrypt(",
+      "title": "Session cookie without HttpOnly/Secure/SameSite",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-jwt-secret",
+      "status": "vuln",
+      "file": "good/libapi.py",
+      "lines": [
+        10,
+        10
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "secret = 'MYSUPERSECRETKEY'",
+      "title": "Hardcoded JWT signing secret",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-secret-key",
+      "status": "vuln",
+      "file": "good/vulpy.py",
+      "lines": [
+        17,
+        17
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "app.config['SECRET_KEY'] = '123aa8a93bdde342",
+      "title": "Hardcoded Flask SECRET_KEY (long, but still in source)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-debug",
+      "status": "vuln",
+      "file": "good/vulpy.py",
+      "lines": [
+        53,
+        53
+      ],
+      "category": "debug-mode",
+      "cwe": [
+        489
+      ],
+      "sast_detectable": true,
+      "anchor": "app.run(debug=True",
+      "title": "Flask debug mode",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-ssl-secret-key",
+      "status": "vuln",
+      "file": "good/vulpy-ssl.py",
+      "lines": [
+        13,
+        13
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": true,
+      "anchor": "app.config['SECRET_KEY'] = 'aaaaaaa'",
+      "title": "Hardcoded Flask SECRET_KEY (SSL entrypoint)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-ssl-debug",
+      "status": "vuln",
+      "file": "good/vulpy-ssl.py",
+      "lines": [
+        29,
+        29
+      ],
+      "category": "debug-mode",
+      "cwe": [
+        489
+      ],
+      "sast_detectable": true,
+      "anchor": "app.run(debug=True",
+      "title": "Flask debug mode (SSL entrypoint)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-xss-posts",
+      "status": "vuln",
+      "file": "good/templates/posts.view.html",
+      "lines": [
+        23,
+        23
+      ],
+      "category": "xss",
+      "cwe": [
+        79
+      ],
+      "sast_detectable": true,
+      "anchor": "{{ post.text | safe }}",
+      "title": "Stored XSS: post text rendered with |safe (not fixed in good/)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-seed-creds-init",
+      "status": "vuln",
+      "file": "good/db_init.py",
+      "lines": [
+        10,
+        12
+      ],
+      "category": "hardcoded-secret",
+      "cwe": [
+        798
+      ],
+      "sast_detectable": false,
+      "anchor": "('admin', 'SuperSecret')",
+      "title": "Hardcoded weak seed passwords",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-safe-login",
+      "status": "safe",
+      "file": "good/libuser.py",
+      "lines": [
+        22,
+        22
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "SELECT * FROM users WHERE username = ?\", (username,)",
+      "title": "Parameterized login lookup (bad/ equivalent is injectable)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-safe-password-set",
+      "status": "safe",
+      "file": "good/libuser.py",
+      "lines": [
+        92,
+        92
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "UPDATE users SET password = ?, salt = ? WHERE username = ?",
+      "title": "Parameterized password update (bad/ equivalent is injectable)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-safe-scrypt-verify",
+      "status": "safe",
+      "file": "good/libuser.py",
+      "lines": [
+        30,
+        37
+      ],
+      "category": "weak-hash",
+      "cwe": [
+        916
+      ],
+      "anchor": "kdf = Scrypt(",
+      "title": "Passwords verified with salted scrypt (n=2**14)",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-safe-scrypt-derive",
+      "status": "safe",
+      "file": "good/libuser.py",
+      "lines": [
+        75,
+        84
+      ],
+      "category": "weak-hash",
+      "cwe": [
+        916
+      ],
+      "anchor": "kdf = Scrypt(",
+      "title": "Passwords derived with salted scrypt",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-safe-salt",
+      "status": "safe",
+      "file": "good/libuser.py",
+      "lines": [
+        73,
+        73
+      ],
+      "category": "weak-random",
+      "cwe": [
+        330
+      ],
+      "anchor": "salt = os.urandom(16)",
+      "title": "Salt from os.urandom",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-safe-posts-select",
+      "status": "safe",
+      "file": "good/libposts.py",
+      "lines": [
+        14,
+        14
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "WHERE username = ? ORDER BY date DESC",
+      "title": "Parameterized SELECT",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-safe-posts-insert",
+      "status": "safe",
+      "file": "good/libposts.py",
+      "lines": [
+        28,
+        28
+      ],
+      "category": "sqli",
+      "cwe": [
+        89
+      ],
+      "anchor": "VALUES (?, ?, DateTime('now'))",
+      "title": "Parameterized INSERT",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-safe-mfa-random",
+      "status": "safe",
+      "file": "good/libmfa.py",
+      "lines": [
+        69,
+        69
+      ],
+      "category": "weak-random",
+      "cwe": [
+        338
+      ],
+      "anchor": "secret=pyotp.random_base32()",
+      "title": "TOTP secret from pyotp.random_base32",
+      "resolution": "as-recorded"
+    },
+    {
+      "id": "vg-safe-api-no-mass-assignment",
+      "status": "safe",
+      "file": "good/mod_api.py",
+      "lines": [
+        56,
+        65
+      ],
+      "category": "mass-assignment",
+      "cwe": [
+        915
+      ],
+      "anchor": "username = libapi.authenticate(request)",
+      "title": "Username taken only from the verified token (bad/ equivalent allows override)",
+      "resolution": "as-recorded"
+    }
+  ]
+}

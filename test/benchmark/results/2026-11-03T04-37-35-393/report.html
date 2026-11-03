@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SecureScanAI Benchmark Report</title>
+<style>
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb; --surface-2: #f3f2ef; --border: #e2e0da;
+  --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #77756f;
+  --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #eda100; --series-5: #e87ba4; --series-6: #008300;
+  --good: #0a7d0a; --critical: #c13333; --warning: #8a5a00;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1a1a19; --surface-2: #232321; --border: #383835;
+    --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #9a998f;
+    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500; --series-5: #d55181; --series-6: #008300;
+    --good: #3cc43c; --critical: #e66767; --warning: #fab219;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --surface-2: #232321; --border: #383835;
+  --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #9a998f;
+  --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500; --series-5: #d55181; --series-6: #008300;
+  --good: #3cc43c; --critical: #e66767; --warning: #fab219;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--text-primary); font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1200px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 40px 0 12px; }
+.meta, .muted { color: var(--text-secondary); }
+.small { font-size: 12px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 24px 0; }
+.tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+.tile-label { color: var(--text-secondary); font-size: 12px; }
+.tile-value { font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tile-sub { color: var(--text-muted); font-size: 12px; }
+ul.insights { padding-left: 20px; } ul.insights li { margin: 6px 0; }
+.scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { font-size: 12px; color: var(--text-secondary); font-weight: 600; background: var(--surface-2); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.wide { min-width: 180px; }
+code { font: 12px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace; word-break: break-all; }
+.stack { display: flex; gap: 2px; height: 12px; border-radius: 4px; overflow: hidden; margin-top: 4px; }
+.stack.empty { color: var(--text-muted); font-size: 12px; height: auto; }
+.seg { min-width: 3px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 8px 0 12px; color: var(--text-secondary); font-size: 12px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.barcell { display: flex; align-items: center; gap: 8px; }
+.bar { flex: 1; height: 10px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: var(--series-1); border-radius: 0 4px 4px 0; }
+.barval { width: 42px; text-align: right; font-variant-numeric: tabular-nums; color: var(--text-secondary); font-size: 12px; }
+.ok { color: var(--good); font-weight: 600; } .bad { color: var(--critical); font-weight: 600; } .warn { color: var(--warning); }
+.chip { display: inline-block; border: 1px solid var(--border); border-radius: 10px; padding: 0 8px; font-size: 11px; color: var(--text-secondary); }
+ol.method li { margin: 6px 0; color: var(--text-secondary); }
+a { color: var(--series-1); }
+</style>
+</head>
+<body>
+<main>
+<h1>SecureScanAI benchmark report</h1>
+<div class="meta">Run <code>2026-11-03T04-37-35-393</code> · vulpy scan-only check · SecureScanAI <code>4e356f6c33</code> (uncommitted changes) · 1/1 repos completed · scanner Semgrep 1.177.0</div>
+
+<div class="tiles">
+<div class="tile"><div class="tile-label">Recall</div><div class="tile-value">35.5%</div><div class="tile-sub">11 of 31 known vulns</div></div>
+<div class="tile"><div class="tile-label">Recall, SAST-detectable</div><div class="tile-value">52.4%</div><div class="tile-sub">11 of 21</div></div>
+<div class="tile"><div class="tile-label">Precision</div><div class="tile-value">78.6%</div><div class="tile-sub">11 TP · 3 FP</div></div>
+<div class="tile"><div class="tile-label">False-positive rate</div><div class="tile-value">15.0%</div><div class="tile-sub">3 of 20 safe spots flagged</div></div>
+<div class="tile"><div class="tile-label">AI fixes verified</div><div class="tile-value">n/a</div><div class="tile-sub">0 of 0 attempted</div></div>
+</div>
+
+<section><h2>Key findings</h2><ul class="insights"><li>Semgrep detected 11 of 31 known vulnerabilities (35.5%); 11 of 21 that a static scanner could reasonably find (52.4%).</li><li>Complete blind spots (0 detected, 2+ known): sqli (4), authn (4), insecure-cookie (2), csrf (2).</li><li>False-positive rate on deliberately safe code: 3/20 (15.0%).</li><li>4 findings duplicate an already-reported file:line (overlapping rulesets), inflating the raw count by 16.7%.</li></ul></section>
+<section><h2>Per repository</h2><div class="legend"><span><i style="background:var(--series-1)"></i>True positive</span><span><i style="background:var(--series-2)"></i>False positive</span><span><i style="background:var(--series-3)"></i>Right place, wrong type</span><span><i style="background:var(--series-4)"></i>Unlabeled</span><span><i style="background:var(--series-5)"></i>Ignored (scoring rule)</span><span><i style="background:var(--series-6)"></i>Out of scope</span></div><div class="scroll"><table><thead><tr><th>Repo</th><th>GT entries</th><th>Findings</th><th>Finding classification</th><th>Recall</th><th>Precision</th><th>FPR</th><th>Clone / scan</th><th>Fixes verified</th><th>Status</th></tr></thead><tbody><tr>
+        <td><a href="https://github.com/fportantier/vulpy">vulpy</a><div class="muted small">python · flask</div></td>
+        <td class="num">51</td>
+        <td class="num">24</td>
+        <td class="wide"><div class="stack" role="img" aria-label="True positive 11, False positive 3, Right place, wrong type 4, Unlabeled 4, Ignored (scoring rule) 0, Out of scope 2"><span class="seg" style="flex-grow:11;background:var(--series-1)" title="True positive: 11 (45.8%)"></span><span class="seg" style="flex-grow:3;background:var(--series-2)" title="False positive: 3 (12.5%)"></span><span class="seg" style="flex-grow:4;background:var(--series-3)" title="Right place, wrong type: 4 (16.7%)"></span><span class="seg" style="flex-grow:4;background:var(--series-4)" title="Unlabeled: 4 (16.7%)"></span><span class="seg" style="flex-grow:2;background:var(--series-6)" title="Out of scope: 2 (8.3%)"></span></div></td>
+        <td class="num">35.5%<div class="muted small">11/31</div></td>
+        <td class="num">78.6%</td>
+        <td class="num">15.0%<div class="muted small">3/20</div></td>
+        <td class="num">10.0 s<div class="muted small">scan 12.1 s</div></td>
+        <td class="num">–</td>
+        <td><span class="ok">ok</span></td>
+      </tr></tbody></table></div></section>
+<section><h2>Detection by category</h2><div class="scroll"><table><thead><tr><th>Category</th><th>Known</th><th>Detected</th><th>Loose</th><th>Recall</th><th>Safe flagged</th></tr></thead><tbody><tr>
+      <td>sqli</td>
+      <td class="num">4</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="sqli: 0/4 detected"><span style="width:0%"></span></div><span class="barval">0%</span></div></td>
+      <td class="num">0/11</td>
+    </tr><tr>
+      <td>hardcoded-secret</td>
+      <td class="num">9</td>
+      <td class="num">4</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="hardcoded-secret: 4/9 detected"><span style="width:44.44444444444444%"></span></div><span class="barval">44%</span></div></td>
+      <td class="num">–</td>
+    </tr><tr>
+      <td>authn</td>
+      <td class="num">4</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="authn: 0/4 detected"><span style="width:0%"></span></div><span class="barval">0%</span></div></td>
+      <td class="num">–</td>
+    </tr><tr>
+      <td>debug-mode</td>
+      <td class="num">4</td>
+      <td class="num">4</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="debug-mode: 4/4 detected"><span style="width:100%"></span></div><span class="barval">100%</span></div></td>
+      <td class="num">–</td>
+    </tr><tr>
+      <td>weak-random</td>
+      <td class="num">1</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="weak-random: 0/1 detected"><span style="width:0%"></span></div><span class="barval">0%</span></div></td>
+      <td class="num">0/3</td>
+    </tr><tr>
+      <td>xss</td>
+      <td class="num">2</td>
+      <td class="num">2</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="xss: 2/2 detected"><span style="width:100%"></span></div><span class="barval">100%</span></div></td>
+      <td class="num">2/2</td>
+    </tr><tr>
+      <td>csrf</td>
+      <td class="num">2</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="csrf: 0/2 detected"><span style="width:0%"></span></div><span class="barval">0%</span></div></td>
+      <td class="num">–</td>
+    </tr><tr>
+      <td>insecure-cookie</td>
+      <td class="num">2</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="insecure-cookie: 0/2 detected"><span style="width:0%"></span></div><span class="barval">0%</span></div></td>
+      <td class="num">–</td>
+    </tr><tr>
+      <td>mass-assignment</td>
+      <td class="num">1</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="mass-assignment: 0/1 detected"><span style="width:0%"></span></div><span class="barval">0%</span></div></td>
+      <td class="num">0/1</td>
+    </tr><tr>
+      <td>weak-hash</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="wide"></td>
+      <td class="num">0/2</td>
+    </tr><tr>
+      <td>cmdi</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="wide"></td>
+      <td class="num">1/1</td>
+    </tr><tr>
+      <td>jwt</td>
+      <td class="num">1</td>
+      <td class="num">1</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="jwt: 1/1 detected"><span style="width:100%"></span></div><span class="barval">100%</span></div></td>
+      <td class="num">–</td>
+    </tr><tr>
+      <td>path-traversal</td>
+      <td class="num">1</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="wide"><div class="barcell"><div class="bar" title="path-traversal: 0/1 detected"><span style="width:0%"></span></div><span class="barval">0%</span></div></td>
+      <td class="num">–</td>
+    </tr></tbody></table></div></section>
+<section><h2>Missed vulnerabilities a SAST tool should find (10)</h2><div class="scroll"><table><thead><tr><th>Repo</th><th>Category</th><th>Location</th><th>Description</th></tr></thead><tbody><tr><td>vulpy</td><td>sqli</td><td><code>bad/libuser.py:12-12</code></td><td>Login SQL injection (str.format into SELECT)</td></tr><tr><td>vulpy</td><td>sqli</td><td><code>bad/libuser.py:25-25</code></td><td>User creation SQL injection (%-format into INSERT)</td></tr><tr><td>vulpy</td><td>sqli</td><td><code>bad/libuser.py:53-53</code></td><td>Password change SQL injection</td></tr><tr><td>vulpy</td><td>weak-random</td><td><code>bad/libapi.py:14-14</code></td><td>API key derived from Mersenne Twister random.getrandbits</td></tr><tr><td>vulpy</td><td>path-traversal</td><td><code>bad/libapi.py:16-22</code></td><td>Username interpolated into /tmp glob and file path (traversal / deleting other users&#39; keys)</td></tr><tr><td>vulpy</td><td>insecure-cookie</td><td><code>bad/libsession.py:7-7</code></td><td>Session cookie without HttpOnly/Secure/SameSite</td></tr><tr><td>vulpy</td><td>sqli</td><td><code>good/libuser.py:61-61</code></td><td>Hardened version still %-formats username into INSERT</td></tr><tr><td>vulpy</td><td>hardcoded-secret</td><td><code>good/libsession.py:9-9</code></td><td>Hardcoded Fernet session-encryption key</td></tr><tr><td>vulpy</td><td>insecure-cookie</td><td><code>good/libsession.py:32-34</code></td><td>Session cookie without HttpOnly/Secure/SameSite</td></tr><tr><td>vulpy</td><td>hardcoded-secret</td><td><code>good/libapi.py:10-10</code></td><td>Hardcoded JWT signing secret</td></tr></tbody></table></div></section>
+<section><h2>False positives (3)</h2><div class="scroll"><table><thead><tr><th>Repo</th><th>Rule</th><th>Location</th><th>Why counted</th><th>Severity</th></tr></thead><tbody><tr><td>vulpy</td><td><code>lang/dangerous-subprocess-use-tainted-env-args</code></td><td><code>bad/brute.py:21</code></td><td>flagged-known-safe<div class="muted small">vb-safe-brute-subprocess</div></td><td>ERROR</td></tr><tr><td>vulpy</td><td><code>flask/template-unescaped-with-safe</code></td><td><code>bad/templates/messages.html:8</code></td><td>flagged-known-safe<div class="muted small">vb-safe-flash-messages</div></td><td>WARNING</td></tr><tr><td>vulpy</td><td><code>flask/template-unescaped-with-safe</code></td><td><code>good/templates/messages.html:8</code></td><td>flagged-known-safe<div class="muted small">vg-safe-flash-messages</div></td><td>WARNING</td></tr></tbody></table></div></section>
+<section><h2>Rules, noisiest first</h2><div class="scroll"><table><thead><tr><th>Rule</th><th>Total</th><th>TP</th><th>FP</th><th>Unlabeled</th><th>Out of scope</th><th>Precision</th></tr></thead><tbody><tr><td><code title="python.lang.security.audit.insecure-transport.requests.request-with-http.request-with-http">lang/request-with-http</code></td><td class="num">4</td><td class="num">0</td><td class="num">0</td><td class="num">4</td><td class="num">0</td><td class="num">n/a</td></tr><tr><td><code title="python.flask.security.xss.audit.template-unescaped-with-safe.template-unescaped-with-safe">flask/template-unescaped-with-safe</code></td><td class="num">4</td><td class="num">2</td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">50.0%</td></tr><tr><td><code title="python.cryptography.security.mode-without-authentication.crypto-mode-without-authentication">cryptography/crypto-mode-without-authentication</code></td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">2</td><td class="num">n/a</td></tr><tr><td><code title="python.lang.security.audit.dangerous-subprocess-use-tainted-env-args.dangerous-subprocess-use-tainted-env-args">lang/dangerous-subprocess-use-tainted-env-args</code></td><td class="num">1</td><td class="num">0</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">0.0%</td></tr><tr><td><code title="python.flask.security.audit.hardcoded-config.avoid_hardcoded_config_SECRET_KEY">flask/avoid_hardcoded_config_SECRET_KEY</code></td><td class="num">4</td><td class="num">4</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">100.0%</td></tr><tr><td><code title="python.flask.security.audit.app-run-security-config.avoid_using_app_run_directly">flask/avoid_using_app_run_directly</code></td><td class="num">4</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">n/a</td></tr><tr><td><code title="python.flask.security.audit.debug-enabled.debug-enabled">flask/debug-enabled</code></td><td class="num">4</td><td class="num">4</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">100.0%</td></tr><tr><td><code title="python.jwt.security.jwt-hardcode.jwt-python-hardcoded-secret">jwt/jwt-python-hardcoded-secret</code></td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">100.0%</td></tr></tbody></table></div></section>
+<section><h2>AI fix pipeline</h2><p class="muted">No fixes attempted in this run.</p></section>
+<section><h2>Method and caveats</h2><ol class="method"><li>Each repo is scanned through the public backend API (submit → poll → report), exactly as the UI does. The harness keeps its own checkout of the same commit to resolve ground-truth line anchors and to measure fix diffs.</li><li>A finding is a true positive when it is in the same file, within 2 lines of a known vulnerability, and its CWE-derived category matches (or is closely related to) the vulnerability&#39;s category. Same place with an unrelated category is a &quot;loose&quot; match: counted separately, never as a TP.</li><li>False positives come from two sources: findings on code labeled deliberately safe (all repos), and any unmatched in-scope finding for repos whose ground truth is marked complete. For other repos unmatched findings are &quot;unlabeled&quot;: review them and promote real issues into ground truth, then re-score with `report.js --rematch`.</li><li>OWASP Benchmark uses its own scoring rules: exact category match per test-case file; findings of other categories are ignored.</li><li>&quot;SAST-detectable&quot; marks vulnerabilities a static scanner can reasonably be expected to see (injection sinks, weak crypto, secrets). Logic flaws such as IDOR, CSRF, or missing rate limits are listed for completeness but excluded from that recall figure.</li><li>Fix verification only checks that the same Semgrep rule no longer fires on that file. It does not prove the fix is correct, compiles, or preserves behavior. Red flags (large rewrite, shrunk file, truncated context) mark fixes that likely silenced the scanner by deleting code or were produced from a truncated file.</li><li>Upstream repos move. Ground-truth entries carry an anchor string and are relocated automatically when line numbers drift; entries whose anchor disappears are reported as stale and excluded from scoring.</li></ol></section>
+</main>
+</body>
+</html>

@@ -1,0 +1,718 @@
+{
+  "scan_id": "773be5db-0334-4fda-ac68-bedb7bff4f51",
+  "repo_url": "https://github.com/stamparm/DSVW.git",
+  "status": "COMPLETED",
+  "scanner": "Semgrep",
+  "semgrep_version": "1.177.0",
+  "semgrep_command": "semgrep scan --config p/security-audit --config p/secrets --config p/sql-injection --config p/flask --config p/owasp-top-ten --json --quiet --metrics=off --no-git-ignore C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51",
+  "finding_count": 10,
+  "findings": [
+    {
+      "rule_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
+      "severity": "WARNING",
+      "file": ".github/workflows/tests.yml",
+      "start_line": 17,
+      "end_line": 17
+    },
+    {
+      "rule_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
+      "severity": "WARNING",
+      "file": ".github/workflows/tests.yml",
+      "start_line": 19,
+      "end_line": 19
+    },
+    {
+      "rule_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
+      "severity": "WARNING",
+      "file": ".github/workflows/tests.yml",
+      "start_line": 35,
+      "end_line": 35
+    },
+    {
+      "rule_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
+      "severity": "WARNING",
+      "file": ".github/workflows/tests.yml",
+      "start_line": 37,
+      "end_line": 37
+    },
+    {
+      "rule_id": "python.lang.security.use-defused-xml.use-defused-xml",
+      "message": "The Python documentation recommends using `defusedxml` instead of `xml` because the native Python `xml` library is vulnerable to XML External Entity (XXE) attacks. These attacks can leak confidential data and \"XML bombs\" can cause denial of service.",
+      "severity": "ERROR",
+      "file": "dsvw.py",
+      "start_line": 2,
+      "end_line": 2
+    },
+    {
+      "rule_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "message": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead.",
+      "severity": "WARNING",
+      "file": "dsvw.py",
+      "start_line": 7,
+      "end_line": 7
+    },
+    {
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "message": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+      "severity": "WARNING",
+      "file": "dsvw.py",
+      "start_line": 10,
+      "end_line": 10
+    },
+    {
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "message": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+      "severity": "WARNING",
+      "file": "dsvw.py",
+      "start_line": 27,
+      "end_line": 27
+    },
+    {
+      "rule_id": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+      "message": "Found 'subprocess' function 'run' with 'shell=True'. This is dangerous because this call will spawn the command using a shell process. Doing so propagates current shell settings and variables, which makes it much easier for a malicious actor to execute commands. Use 'shell=False' instead.",
+      "severity": "ERROR",
+      "file": "dsvw.py",
+      "start_line": 31,
+      "end_line": 31
+    },
+    {
+      "rule_id": "python.lang.security.audit.exec-detected.exec-detected",
+      "message": "Detected the use of exec(). exec() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not definable by external sources.",
+      "severity": "WARNING",
+      "file": "dsvw.py",
+      "start_line": 49,
+      "end_line": 49
+    }
+  ],
+  "raw": {
+    "version": "1.177.0",
+    "results": [
+      {
+        "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\.github\\workflows\\tests.yml",
+        "start": {
+          "line": 17,
+          "col": 9,
+          "offset": 285
+        },
+        "end": {
+          "line": 17,
+          "col": 34,
+          "offset": 310
+        },
+        "extra": {
+          "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
+          "metadata": {
+            "category": "security",
+            "cwe": [
+              "CWE-1357: Reliance on Insufficiently Trustworthy Component",
+              "CWE-353: Missing Support for Integrity Check"
+            ],
+            "owasp": [
+              "A08:2021 - Software and Data Integrity Failures",
+              "A08:2025 - Software and Data Integrity Failures"
+            ],
+            "references": [
+              "https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "technology": [
+              "github-actions"
+            ],
+            "subcategory": [
+              "vuln"
+            ],
+            "likelihood": "MEDIUM",
+            "impact": "HIGH",
+            "confidence": "HIGH",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Cryptographic Issues",
+              "Other"
+            ],
+            "source": "https://semgrep.dev/r/yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+            "shortlink": "https://sg.run/2LgAL"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\.github\\workflows\\tests.yml",
+        "start": {
+          "line": 19,
+          "col": 9,
+          "offset": 322
+        },
+        "end": {
+          "line": 19,
+          "col": 38,
+          "offset": 351
+        },
+        "extra": {
+          "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
+          "metadata": {
+            "category": "security",
+            "cwe": [
+              "CWE-1357: Reliance on Insufficiently Trustworthy Component",
+              "CWE-353: Missing Support for Integrity Check"
+            ],
+            "owasp": [
+              "A08:2021 - Software and Data Integrity Failures",
+              "A08:2025 - Software and Data Integrity Failures"
+            ],
+            "references": [
+              "https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "technology": [
+              "github-actions"
+            ],
+            "subcategory": [
+              "vuln"
+            ],
+            "likelihood": "MEDIUM",
+            "impact": "HIGH",
+            "confidence": "HIGH",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Cryptographic Issues",
+              "Other"
+            ],
+            "source": "https://semgrep.dev/r/yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+            "shortlink": "https://sg.run/2LgAL"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\.github\\workflows\\tests.yml",
+        "start": {
+          "line": 35,
+          "col": 9,
+          "offset": 900
+        },
+        "end": {
+          "line": 35,
+          "col": 34,
+          "offset": 925
+        },
+        "extra": {
+          "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
+          "metadata": {
+            "category": "security",
+            "cwe": [
+              "CWE-1357: Reliance on Insufficiently Trustworthy Component",
+              "CWE-353: Missing Support for Integrity Check"
+            ],
+            "owasp": [
+              "A08:2021 - Software and Data Integrity Failures",
+              "A08:2025 - Software and Data Integrity Failures"
+            ],
+            "references": [
+              "https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "technology": [
+              "github-actions"
+            ],
+            "subcategory": [
+              "vuln"
+            ],
+            "likelihood": "MEDIUM",
+            "impact": "HIGH",
+            "confidence": "HIGH",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Cryptographic Issues",
+              "Other"
+            ],
+            "source": "https://semgrep.dev/r/yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+            "shortlink": "https://sg.run/2LgAL"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\.github\\workflows\\tests.yml",
+        "start": {
+          "line": 37,
+          "col": 9,
+          "offset": 937
+        },
+        "end": {
+          "line": 37,
+          "col": 38,
+          "offset": 966
+        },
+        "extra": {
+          "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks — as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
+          "metadata": {
+            "category": "security",
+            "cwe": [
+              "CWE-1357: Reliance on Insufficiently Trustworthy Component",
+              "CWE-353: Missing Support for Integrity Check"
+            ],
+            "owasp": [
+              "A08:2021 - Software and Data Integrity Failures",
+              "A08:2025 - Software and Data Integrity Failures"
+            ],
+            "references": [
+              "https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "technology": [
+              "github-actions"
+            ],
+            "subcategory": [
+              "vuln"
+            ],
+            "likelihood": "MEDIUM",
+            "impact": "HIGH",
+            "confidence": "HIGH",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Cryptographic Issues",
+              "Other"
+            ],
+            "source": "https://semgrep.dev/r/yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+            "shortlink": "https://sg.run/2LgAL"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.use-defused-xml.use-defused-xml",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\dsvw.py",
+        "start": {
+          "line": 2,
+          "col": 1,
+          "offset": 24
+        },
+        "end": {
+          "line": 2,
+          "col": 198,
+          "offset": 221
+        },
+        "extra": {
+          "message": "The Python documentation recommends using `defusedxml` instead of `xml` because the native Python `xml` library is vulnerable to XML External Entity (XXE) attacks. These attacks can leak confidential data and \"XML bombs\" can cause denial of service.",
+          "metadata": {
+            "owasp": [
+              "A04:2017 - XML External Entities (XXE)",
+              "A05:2021 - Security Misconfiguration",
+              "A02:2025 - Security Misconfiguration"
+            ],
+            "cwe": [
+              "CWE-611: Improper Restriction of XML External Entity Reference"
+            ],
+            "references": [
+              "https://docs.python.org/3/library/xml.html",
+              "https://github.com/tiran/defusedxml",
+              "https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing"
+            ],
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "MEDIUM",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "XML Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.use-defused-xml.use-defused-xml",
+            "shortlink": "https://sg.run/kX47"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\dsvw.py",
+        "start": {
+          "line": 7,
+          "col": 78,
+          "offset": 1001
+        },
+        "end": {
+          "line": 7,
+          "col": 268,
+          "offset": 1191
+        },
+        "extra": {
+          "message": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead.",
+          "metadata": {
+            "cwe": [
+              "CWE-939: Improper Authorization in Handler for Custom URL Scheme"
+            ],
+            "owasp": "A01:2017 - Injection",
+            "source-rule-url": "https://github.com/PyCQA/bandit/blob/b1411bfb43795d3ffd268bef17a839dee954c2b1/bandit/blacklists/calls.py#L163",
+            "bandit-code": "B310",
+            "asvs": {
+              "control_id": "5.2.4 Dynamic Code Execution Features",
+              "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v52-sanitization-and-sandboxing-requirements",
+              "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+              "version": "4"
+            },
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "references": [
+              "https://cwe.mitre.org/data/definitions/939.html"
+            ],
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Improper Authorization"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+            "shortlink": "https://sg.run/dKZZ"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\dsvw.py",
+        "start": {
+          "line": 10,
+          "col": 9202,
+          "offset": 12377
+        },
+        "end": {
+          "line": 10,
+          "col": 9360,
+          "offset": 12535
+        },
+        "extra": {
+          "message": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+          "metadata": {
+            "owasp": [
+              "A08:2017 - Insecure Deserialization",
+              "A08:2021 - Software and Data Integrity Failures",
+              "A08:2025 - Software or Data Integrity Failures"
+            ],
+            "cwe": [
+              "CWE-502: Deserialization of Untrusted Data"
+            ],
+            "references": [
+              "https://docs.python.org/3/library/pickle.html"
+            ],
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "MEDIUM",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Insecure Deserialization "
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.deserialization.pickle.avoid-pickle",
+            "shortlink": "https://sg.run/OPwB"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\dsvw.py",
+        "start": {
+          "line": 27,
+          "col": 35,
+          "offset": 15215
+        },
+        "end": {
+          "line": 27,
+          "col": 135,
+          "offset": 15315
+        },
+        "extra": {
+          "message": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+          "metadata": {
+            "owasp": [
+              "A08:2017 - Insecure Deserialization",
+              "A08:2021 - Software and Data Integrity Failures",
+              "A08:2025 - Software or Data Integrity Failures"
+            ],
+            "cwe": [
+              "CWE-502: Deserialization of Untrusted Data"
+            ],
+            "references": [
+              "https://docs.python.org/3/library/pickle.html"
+            ],
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "MEDIUM",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Insecure Deserialization "
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.deserialization.pickle.avoid-pickle",
+            "shortlink": "https://sg.run/OPwB"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\dsvw.py",
+        "start": {
+          "line": 31,
+          "col": 84,
+          "offset": 15650
+        },
+        "end": {
+          "line": 31,
+          "col": 88,
+          "offset": 15654
+        },
+        "extra": {
+          "message": "Found 'subprocess' function 'run' with 'shell=True'. This is dangerous because this call will spawn the command using a shell process. Doing so propagates current shell settings and variables, which makes it much easier for a malicious actor to execute commands. Use 'shell=False' instead.",
+          "fix": "False",
+          "metadata": {
+            "source-rule-url": "https://bandit.readthedocs.io/en/latest/plugins/b602_subprocess_popen_with_shell_equals_true.html",
+            "owasp": [
+              "A01:2017 - Injection",
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "cwe": [
+              "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+            ],
+            "references": [
+              "https://stackoverflow.com/questions/3172470/actual-meaning-of-shell-true-in-subprocess",
+              "https://docs.python.org/3/library/subprocess.html"
+            ],
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "secure default"
+            ],
+            "likelihood": "HIGH",
+            "impact": "LOW",
+            "confidence": "MEDIUM",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Command Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+            "shortlink": "https://sg.run/J92w"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.audit.exec-detected.exec-detected",
+        "path": "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\dsvw.py",
+        "start": {
+          "line": 49,
+          "col": 26,
+          "offset": 18169
+        },
+        "end": {
+          "line": 49,
+          "col": 45,
+          "offset": 18188
+        },
+        "extra": {
+          "message": "Detected the use of exec(). exec() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not definable by external sources.",
+          "metadata": {
+            "source-rule-url": "https://bandit.readthedocs.io/en/latest/plugins/b102_exec_used.html",
+            "cwe": [
+              "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')"
+            ],
+            "owasp": [
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "asvs": {
+              "control_id": "5.2.4 Dyanmic Code Execution Features",
+              "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v52-sanitization-and-sandboxing-requirements",
+              "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+              "version": "4"
+            },
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "references": [
+              "https://owasp.org/Top10/A03_2021-Injection"
+            ],
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "HIGH",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Code Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.audit.exec-detected.exec-detected",
+            "shortlink": "https://sg.run/ndRX"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      }
+    ],
+    "errors": [],
+    "paths": {
+      "scanned": [
+        "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\.github\\workflows\\tests.yml",
+        "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\docker-compose.yml",
+        "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\Dockerfile",
+        "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\dsvw.py",
+        "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\LICENSE",
+        "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\README.md",
+        "C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51\\requirements.txt"
+      ]
+    },
+    "time": {
+      "rules": [],
+      "rules_parse_time": 1.518798589706421,
+      "profiling_times": {
+        "config_time": 4.186450481414795,
+        "core_time": 3.5546679496765137,
+        "ignores_time": 0.003009796142578125,
+        "total_time": 7.770641326904297
+      },
+      "parsing_time": {
+        "total_time": 0,
+        "per_file_time": {
+          "mean": 0,
+          "std_dev": 0
+        },
+        "very_slow_stats": {
+          "time_ratio": 0,
+          "count_ratio": 0
+        },
+        "very_slow_files": []
+      },
+      "scanning_time": {
+        "total_time": 1.5143952369689941,
+        "per_file_time": {
+          "mean": 0.08413306872049969,
+          "std_dev": 0.09711618625974933
+        },
+        "very_slow_stats": {
+          "time_ratio": 0,
+          "count_ratio": 0
+        },
+        "very_slow_files": []
+      },
+      "matching_time": {
+        "total_time": 0,
+        "per_file_and_rule_time": {
+          "mean": 0,
+          "std_dev": 0
+        },
+        "very_slow_stats": {
+          "time_ratio": 0,
+          "count_ratio": 0
+        },
+        "very_slow_rules_on_files": []
+      },
+      "tainting_time": {
+        "total_time": 0,
+        "per_def_and_rule_time": {
+          "mean": 0,
+          "std_dev": 0
+        },
+        "very_slow_stats": {
+          "time_ratio": 0,
+          "count_ratio": 0
+        },
+        "very_slow_rules_on_defs": []
+      },
+      "fixpoint_timeouts": [],
+      "prefiltering": {
+        "project_level_time": 0,
+        "file_level_time": 0,
+        "rules_with_project_prefilters_ratio": 0,
+        "rules_with_file_prefilters_ratio": 0.9082397003745318,
+        "rules_selected_ratio": 0.18164794007490637,
+        "rules_matched_ratio": 0.18164794007490637
+      },
+      "targets": [],
+      "total_bytes": 0,
+      "max_memory_bytes": 773005440
+    },
+    "engine_requested": "OSS",
+    "skipped_rules": [],
+    "profiling_results": []
+  }
+}

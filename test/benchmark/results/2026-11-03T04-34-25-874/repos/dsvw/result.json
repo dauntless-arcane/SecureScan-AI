@@ -1,0 +1,407 @@
+{
+  "repo": {
+    "id": "dsvw",
+    "name": "Damn Small Vulnerable Web",
+    "url": "https://github.com/stamparm/DSVW",
+    "language": "python",
+    "framework": "stdlib http.server",
+    "tier": "smoke",
+    "reviewed_commit": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+    "ground_truth": {
+      "type": "static",
+      "file": "ground-truth/dsvw.json"
+    },
+    "notes": "~100 LoC, ~25 documented vulnerability classes in one file. Fastest end-to-end check."
+  },
+  "status": "ok",
+  "error": null,
+  "head_sha": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+  "checkout_sha": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+  "scan_id": "773be5db-0334-4fda-ac68-bedb7bff4f51",
+  "head_sha_after": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+  "timings": {
+    "timeline": [
+      {
+        "status": "CLONING",
+        "at_ms": 12
+      },
+      {
+        "status": "SCANNING",
+        "at_ms": 4025
+      },
+      {
+        "status": "COMPLETED",
+        "at_ms": 16109
+      }
+    ],
+    "clone_ms": 4013,
+    "scan_ms": 12084,
+    "total_ms": 20398
+  },
+  "scanner": {
+    "name": "Semgrep",
+    "version": "1.177.0",
+    "command": "semgrep scan --config p/security-audit --config p/secrets --config p/sql-injection --config p/flask --config p/owasp-top-ten --json --quiet --metrics=off --no-git-ignore C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\773be5db-0334-4fda-ac68-bedb7bff4f51",
+    "errors": 0
+  },
+  "gt_meta": {
+    "source": "Hand-authored by reading dsvw.py line by line and cross-checking against the CASES attack list the app itself ships (dsvw.py:10). Scope is the application file only; tests/, Dockerfile and .github/ are out of scope.",
+    "commit": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+    "complete": true,
+    "unmatched_policy": "fp",
+    "strict_categories": false,
+    "entries": 29,
+    "relocated": 0,
+    "stale": []
+  },
+  "metrics": {
+    "ground_truth_complete": true,
+    "unmatched_policy": "fp",
+    "findings_total": 10,
+    "findings_distinct_locations": 10,
+    "findings_by_classification": {
+      "tp": 4,
+      "fp": 2,
+      "loose": 0,
+      "unlabeled": 0,
+      "ignored": 0,
+      "out-of-scope": 4
+    },
+    "entries_total": 29,
+    "entries_stale": 0,
+    "vuln_total": 26,
+    "vuln_detected": 4,
+    "vuln_detected_including_loose": 4,
+    "vuln_missed": 22,
+    "sast_detectable_total": 19,
+    "sast_detectable_detected": 4,
+    "safe_total": 3,
+    "safe_flagged": 1,
+    "recall": 0.15384615384615385,
+    "recall_including_loose": 0.15384615384615385,
+    "recall_sast_detectable": 0.21052631578947367,
+    "precision": 0.6666666666666666,
+    "false_positive_rate": 0.3333333333333333,
+    "youden_index": -0.17948717948717946,
+    "by_category": {
+      "sqli": {
+        "vuln_total": 3,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 3,
+        "safe_total": 1,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "xss": {
+        "vuln_total": 4,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 4,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "deserialization": {
+        "vuln_total": 1,
+        "detected": 1,
+        "detected_loose": 0,
+        "missed": 0,
+        "safe_total": 1,
+        "safe_flagged": 1,
+        "findings_tp": 1,
+        "findings_fp": 1
+      },
+      "path-traversal": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "ssrf": {
+        "vuln_total": 2,
+        "detected": 1,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 1,
+        "findings_fp": 0
+      },
+      "cmdi": {
+        "vuln_total": 1,
+        "detected": 1,
+        "detected_loose": 0,
+        "missed": 0,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 1,
+        "findings_fp": 0
+      },
+      "xxe": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 1,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 1
+      },
+      "xpath": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "dos": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "csrf": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "file-inclusion": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "code-injection": {
+        "vuln_total": 1,
+        "detected": 1,
+        "detected_loose": 0,
+        "missed": 0,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 1,
+        "findings_fp": 0
+      },
+      "ssti": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "weak-random": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "insecure-cookie": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "info-disclosure": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "open-redirect": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "misconfig": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "header-injection": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "hardcoded-secret": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      }
+    },
+    "by_rule": {
+      "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag": {
+        "short_rule": "github-actions/github-actions-mutable-action-tag",
+        "total": 4,
+        "tp": 0,
+        "fp": 0,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 4
+      },
+      "python.lang.security.use-defused-xml.use-defused-xml": {
+        "short_rule": "lang/use-defused-xml",
+        "total": 1,
+        "tp": 0,
+        "fp": 1,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected": {
+        "short_rule": "lang/dynamic-urllib-use-detected",
+        "total": 1,
+        "tp": 1,
+        "fp": 0,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.lang.security.deserialization.pickle.avoid-pickle": {
+        "short_rule": "lang/avoid-pickle",
+        "total": 2,
+        "tp": 1,
+        "fp": 1,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true": {
+        "short_rule": "lang/subprocess-shell-true",
+        "total": 1,
+        "tp": 1,
+        "fp": 0,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.lang.security.audit.exec-detected.exec-detected": {
+        "short_rule": "lang/exec-detected",
+        "total": 1,
+        "tp": 1,
+        "fp": 0,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      }
+    },
+    "by_severity": {
+      "WARNING": {
+        "total": 8,
+        "tp": 3,
+        "fp": 1
+      },
+      "ERROR": {
+        "total": 2,
+        "tp": 1,
+        "fp": 1
+      }
+    }
+  },
+  "fix_records": [
+    {
+      "finding_index": 8,
+      "rule_id": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+      "file": "dsvw.py",
+      "start_line": 31,
+      "severity": "ERROR",
+      "classification": "tp",
+      "categories": [
+        "cmdi"
+      ],
+      "matched_entries": [
+        "dsvw-cmdi"
+      ],
+      "fix": {
+        "ok": false,
+        "latency_ms": 1113,
+        "error": "OpenRouter request failed (401): {\"error\":{\"message\":\"API key expired.\",\"code\":401,\"metadata\":{\"headers\":{\"WWW-Authenticate\":\"Bearer error=\\\"invalid_token\\\", error_description=\\\"API key expired\\\"\"}}}}",
+        "http_status": 502
+      },
+      "verification": null
+    },
+    {
+      "finding_index": 5,
+      "rule_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "file": "dsvw.py",
+      "start_line": 7,
+      "severity": "WARNING",
+      "classification": "tp",
+      "categories": [
+        "ssrf"
+      ],
+      "matched_entries": [
+        "dsvw-ssrf-fetch-sink"
+      ],
+      "fix": {
+        "ok": false,
+        "latency_ms": 214,
+        "error": "OpenRouter request failed (401): {\"error\":{\"message\":\"API key expired.\",\"code\":401,\"metadata\":{\"headers\":{\"WWW-Authenticate\":\"Bearer error=\\\"invalid_token\\\", error_description=\\\"API key expired\\\"\"}}}}",
+        "http_status": 502
+      },
+      "verification": null
+    }
+  ]
+}

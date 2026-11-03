@@ -1,0 +1,319 @@
+{
+  "repo": {
+    "id": "vulpy",
+    "name": "Vulpy (bad/ and good/ variants)",
+    "url": "https://github.com/fportantier/vulpy",
+    "language": "python",
+    "framework": "flask",
+    "tier": "core",
+    "reviewed_commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "ground_truth": {
+      "type": "static",
+      "file": "ground-truth/vulpy.json"
+    },
+    "notes": "Same app written insecurely (bad/) and hardened (good/). Safe entries in good/ measure false positives."
+  },
+  "status": "ok",
+  "error": null,
+  "head_sha": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+  "checkout_sha": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+  "scan_id": "f4602aec-26ce-405e-b44e-35ce5655203a",
+  "head_sha_after": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+  "timings": {
+    "timeline": [
+      {
+        "status": "CLONING",
+        "at_ms": 8
+      },
+      {
+        "status": "SCANNING",
+        "at_ms": 10054
+      },
+      {
+        "status": "COMPLETED",
+        "at_ms": 22137
+      }
+    ],
+    "clone_ms": 10046,
+    "scan_ms": 12083,
+    "total_ms": 25716
+  },
+  "scanner": {
+    "name": "Semgrep",
+    "version": "1.177.0",
+    "command": "semgrep scan --config p/security-audit --config p/secrets --config p/sql-injection --config p/flask --config p/owasp-top-ten --json --quiet --metrics=off --no-git-ignore C:\\Users\\tharu\\OneDrive\\Documents\\personal projects\\SecureScanAI\\backend\\workspaces\\f4602aec-26ce-405e-b44e-35ce5655203a",
+    "errors": 10
+  },
+  "gt_meta": {
+    "source": "Hand-authored from bad/*.py, good/*.py and templates. good/ is the author's hardened rewrite but is NOT fully clean (README: 'not finished yet'), so it contributes both vuln entries and deliberately safe entries. Safe entries at the exact places bad/ is vulnerable are what drive the false-positive rate. utils/ is out of scope.",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "complete": false,
+    "unmatched_policy": "unlabeled",
+    "strict_categories": false,
+    "entries": 51,
+    "relocated": 0,
+    "stale": []
+  },
+  "metrics": {
+    "ground_truth_complete": false,
+    "unmatched_policy": "unlabeled",
+    "findings_total": 24,
+    "findings_distinct_locations": 20,
+    "findings_by_classification": {
+      "tp": 11,
+      "fp": 3,
+      "loose": 4,
+      "unlabeled": 4,
+      "ignored": 0,
+      "out-of-scope": 2
+    },
+    "entries_total": 51,
+    "entries_stale": 0,
+    "vuln_total": 31,
+    "vuln_detected": 11,
+    "vuln_detected_including_loose": 11,
+    "vuln_missed": 20,
+    "sast_detectable_total": 21,
+    "sast_detectable_detected": 11,
+    "safe_total": 20,
+    "safe_flagged": 3,
+    "recall": 0.3548387096774194,
+    "recall_including_loose": 0.3548387096774194,
+    "recall_sast_detectable": 0.5238095238095238,
+    "precision": 0.7857142857142857,
+    "false_positive_rate": 0.15,
+    "youden_index": 0.20483870967741938,
+    "by_category": {
+      "sqli": {
+        "vuln_total": 4,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 4,
+        "safe_total": 11,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "authn": {
+        "vuln_total": 4,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 4,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "weak-random": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 3,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "path-traversal": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "insecure-cookie": {
+        "vuln_total": 2,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 2,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "mass-assignment": {
+        "vuln_total": 1,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 1,
+        "safe_total": 1,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "csrf": {
+        "vuln_total": 2,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 2,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      },
+      "xss": {
+        "vuln_total": 2,
+        "detected": 2,
+        "detected_loose": 0,
+        "missed": 0,
+        "safe_total": 2,
+        "safe_flagged": 2,
+        "findings_tp": 2,
+        "findings_fp": 2
+      },
+      "hardcoded-secret": {
+        "vuln_total": 9,
+        "detected": 4,
+        "detected_loose": 0,
+        "missed": 5,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 4,
+        "findings_fp": 0
+      },
+      "debug-mode": {
+        "vuln_total": 4,
+        "detected": 4,
+        "detected_loose": 0,
+        "missed": 0,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 4,
+        "findings_fp": 0
+      },
+      "jwt": {
+        "vuln_total": 1,
+        "detected": 1,
+        "detected_loose": 0,
+        "missed": 0,
+        "safe_total": 0,
+        "safe_flagged": 0,
+        "findings_tp": 1,
+        "findings_fp": 0
+      },
+      "cmdi": {
+        "vuln_total": 0,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 0,
+        "safe_total": 1,
+        "safe_flagged": 1,
+        "findings_tp": 0,
+        "findings_fp": 1
+      },
+      "weak-hash": {
+        "vuln_total": 0,
+        "detected": 0,
+        "detected_loose": 0,
+        "missed": 0,
+        "safe_total": 2,
+        "safe_flagged": 0,
+        "findings_tp": 0,
+        "findings_fp": 0
+      }
+    },
+    "by_rule": {
+      "python.lang.security.audit.insecure-transport.requests.request-with-http.request-with-http": {
+        "short_rule": "lang/request-with-http",
+        "total": 4,
+        "tp": 0,
+        "fp": 0,
+        "loose": 0,
+        "unlabeled": 4,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.lang.security.audit.dangerous-subprocess-use-tainted-env-args.dangerous-subprocess-use-tainted-env-args": {
+        "short_rule": "lang/dangerous-subprocess-use-tainted-env-args",
+        "total": 1,
+        "tp": 0,
+        "fp": 1,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.flask.security.xss.audit.template-unescaped-with-safe.template-unescaped-with-safe": {
+        "short_rule": "flask/template-unescaped-with-safe",
+        "total": 4,
+        "tp": 2,
+        "fp": 2,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.flask.security.audit.hardcoded-config.avoid_hardcoded_config_SECRET_KEY": {
+        "short_rule": "flask/avoid_hardcoded_config_SECRET_KEY",
+        "total": 4,
+        "tp": 4,
+        "fp": 0,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.flask.security.audit.app-run-security-config.avoid_using_app_run_directly": {
+        "short_rule": "flask/avoid_using_app_run_directly",
+        "total": 4,
+        "tp": 0,
+        "fp": 0,
+        "loose": 4,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.flask.security.audit.debug-enabled.debug-enabled": {
+        "short_rule": "flask/debug-enabled",
+        "total": 4,
+        "tp": 4,
+        "fp": 0,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.jwt.security.jwt-hardcode.jwt-python-hardcoded-secret": {
+        "short_rule": "jwt/jwt-python-hardcoded-secret",
+        "total": 1,
+        "tp": 1,
+        "fp": 0,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 0
+      },
+      "python.cryptography.security.mode-without-authentication.crypto-mode-without-authentication": {
+        "short_rule": "cryptography/crypto-mode-without-authentication",
+        "total": 2,
+        "tp": 0,
+        "fp": 0,
+        "loose": 0,
+        "unlabeled": 0,
+        "ignored": 0,
+        "out-of-scope": 2
+      }
+    },
+    "by_severity": {
+      "INFO": {
+        "total": 4,
+        "tp": 0,
+        "fp": 0
+      },
+      "ERROR": {
+        "total": 8,
+        "tp": 5,
+        "fp": 1
+      },
+      "WARNING": {
+        "total": 12,
+        "tp": 6,
+        "fp": 2
+      }
+    }
+  },
+  "fix_records": []
+}
